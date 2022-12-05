@@ -6,7 +6,7 @@ import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
 import { isRelogin } from '@/utils/request'
 
-NProgress.configure({ showSpinner: false }) // NProgress Configuration
+NProgress.configure({ showSpinner: true }) // NProgress Configuration
 
 const whiteList = ['/index', '/QualityDataAnalysis','/QualityTwo','/QualityTwoChildren'] // no redirect whitelist
 

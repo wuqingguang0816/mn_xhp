@@ -6,11 +6,11 @@ import errorCode from '@/utils/errorCode'
 
 export const isRelogin = { show: false }
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8;'
-axios.defaults.headers['Access-Control-Allow-Origin'] = 'http://192.168.1.45'
+axios.defaults.headers['Access-Control-Allow-Origin'] = '*'
 // 创建axios实例
 const service = axios.create({
-//   baseURL: process.env.VUE_APP_BASE_API,
-  baseURL: 'http://192.168.1.45',
+  baseURL: process.env.VUE_APP_BASE_API,
+  // baseURL: 'http://192.168.1.45',
   // 超时
   timeout: 10000
 })
