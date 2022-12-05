@@ -1,8 +1,11 @@
-import request from '@/utils/request'
-export function TabbleCommon(data) { // // 运动员首页数据接口
-  return request({
-    url: 'LIMS/ashx/Common.ashx',
-    method: 'post',
-    data
-  })
+// 导入封装好的axios请求文件
+import requests from "./api";
+let u = "YLLIMS"
+    // 测试接口
+export const getReq = (url, method, data) => {
+    return requests({
+        url: url,
+        method: method,
+        data: data
+    })
 }

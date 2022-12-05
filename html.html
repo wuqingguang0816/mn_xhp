@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+</head>
+
+<body>
+    <div id="view">12313</div>
+    <script>
+        window.onload = function() {
+            let urlTo = 'https://wechat.yili.com/connect/oauth2/authorize?appid=' + corpid +
+                '&redirect_uri=' + redirect_uri + '&response_type=code&scope=' + scope +
+                '&agentid=' + agentid + '&state=' + state + '#wechat_redirect';
+
+            wx.config({
+                beta: false, // 必须这么写，否则wx.invoke调用形式的jsapi会有问题
+                debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: 'wwe59af6e89a4e4058', // 必填，企业微信的corpID
+                timestamp: '', // 必填，生成签名的时间戳
+                nonceStr: '', // 必填，生成签名的随机串
+                signature: '', // 必填，签名，见 附录-JS-SDK使用权限签名算法
+                jsApiList: ['checkJsApi',
+                        'onMenuShareAppMessage',
+                        'onMenuShareWechat',
+                        'onMenuShareTimeline',
+                        'shareAppMessage',
+                        'shareWechatMessage',
+                        'startRecord',
+                        'stopRecord',
+                        'onVoiceRecordEnd',
+                        'playVoice',
+                        'pauseVoice',
+                        'stopVoice',
+                        'uploadVoice',
+                        'downloadVoice',
+                        'chooseImage',
+                        'previewImage',
+                        'uploadImage',
+                        'downloadImage',
+                        'getNetworkType',
+                        'openLocation',
+                        'getLocation',
+                        'hideOptionMenu',
+                        'showOptionMenu',
+                        'hideMenuItems',
+                        'showMenuItems',
+                        'hideAllNonBaseMenuItem',
+                        'showAllNonBaseMenuItem',
+                        'closeWindow',
+                        'scanQRCode',
+                        'previewFile',
+                        'openEnterpriseChat',
+                        'selectEnterpriseContact',
+                        'onHistoryBack',
+                        'openDefaultBrowser'
+                    ] // 必填，需要使用的JS接口列表，凡是要调用的接口都需要传进来
+            });
+            let view = document.getElementById('view');
+            wx.ready(function() {
+                wx.hideOptionMenu();
+                wx.invoke('launchMiniprogram', {
+                    "appid": "wx062aaa5507909631", // 需跳转的小程序appid
+                    "path": "pages/login/login", // 所需跳转的小程序内页面路径及参数。非必填
+                }, function(res) {
+                    if (res.err_msg == "launchMiniprogram:ok") {
+                        // 正常
+                    } else {
+                        // 错误处理
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>

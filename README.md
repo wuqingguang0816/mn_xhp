@@ -1,4 +1,4 @@
-# foot-statistical-page
+# my-project
 
 > A Vue.js project
 
