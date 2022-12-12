@@ -4,7 +4,7 @@ let u = "/LIMS"
     // 测试接口
 export const getReq = (url, method, data) => {
     return requests({
-        url: url,
+        url: u + url,
         method: method,
         data: data
     })

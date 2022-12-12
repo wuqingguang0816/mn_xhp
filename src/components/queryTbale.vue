@@ -35,7 +35,7 @@ export default {
             type: Object,
             default: () => {
                 return {
-                    fetch: '/api/ashx/Common.ashx'
+                    fetch: '/ashx/Common.ashx'
                 }
             }
         }
@@ -66,7 +66,8 @@ export default {
                     data[i] = this.listQuery[i]
                 }
             }
-            this.$axios.post(this.api.fetch, data).then(response => {
+
+            this.$getReq(this.api.fetch,"post",data).then(response => {
                 if (response) {
                     if (response.Result) {
                         if (response.Result.data) {
