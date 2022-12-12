@@ -546,7 +546,7 @@ export default {
         "PageSize": "10",
         "Filter": "{}",
       }
-      this.$axios.post('/api/ashx/Common.ashx', data).then(r => {
+      this.$getReq('/ashx/Common.ashx',"post",data).then(r => {
         var title = r.Result.showtitle.split(',')
         if (r.Result.data.length > 0) {
           var t = r.Result.data[0]

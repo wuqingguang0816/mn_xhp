@@ -488,7 +488,7 @@ export default {
         "Filter": JSON.stringify(a),
       }
       this.$store.state.Filter = data.Filter
-      this.$axios.post('/api/ashx/Common.ashx', data).then(res => {
+      this.$getReq("/ashx/Common.ashx","post",data).then(res => {
         console.log(res)
         var datas = res.Result.data
         var name = [], max = [], min = [], avg = []
@@ -502,8 +502,7 @@ export default {
       })
       data.TreeID = '1000260'
       data.PageSize = '9999'
-      this.$axios.post('/api/ashx/Common.ashx', data).then(res => {
-        console.log(res)
+      this.$getReq("/ashx/Common.ashx","post",data).then(res => {
         var data2 = res.Result.data
         var nameList = []
         var obj=[]

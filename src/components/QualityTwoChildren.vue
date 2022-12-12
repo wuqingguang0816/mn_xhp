@@ -90,7 +90,8 @@ export default {
     console.log(this.$route.query)
     this.name = this.$route.query.name
     // var getData = require("../assets/" + json_name + ".json"); // 直接引入省级地图json文件
-    this.$axios(`/apo/json/${r}.json`).then(getData => {
+    let str ="/apo"; //正式库是需要去掉
+    this.$axios(`/json/${r}.json`).then(getData => {
       this.city = getData
       this.getsj()
       // this.json_data = getData
@@ -125,7 +126,7 @@ export default {
         "PageSize": "1000000000",
         "Filter": this.$store.state.Filter,
       }
-      this.$axios.post('/api/ashx/Common.ashx', data).then(res => {
+      this.$axios.post('/ashx/Common.ashx', data).then(res => {
         var data2 = res.Result.data
         var nameList = []
         var obj = []
