@@ -95,26 +95,14 @@ export default {
     this.$axios(`/json/${r}.json`).then(getData => {
       this.city = getData
       this.getsj()
-      // this.json_data = getData
-      // let data = getData.features
-      // let arr = [];
-      // for (let i = 0; i < data.length; i++) {
-      //   let obj = {
-      //     name: data[i].properties.name,
-      //     value: Math.floor(Math.random() * 100),
-      //   }
-      //   arr.push(obj)
-      // }
-      // this.sfData = arr
-      // this.mYecharts();
     })
 
   },
   mounted() {
-
+    this.getEcharts()//表格数据
     this.mYgradeEcharts();
     this.getBox1Data()
-    this.getEcharts()//表格数据
+    
   },
   methods: {
     getsj() {
@@ -423,6 +411,7 @@ export default {
       console.log(`当前页: ${val}`, this.PageIndex);
     },
     getEcharts() {
+      console.log(this.listQuery)
       this.listQuery.UserId=this.UserId
       this.listQuery.Filter=this.$store.state.Filter
       this.$refs.queryTable.getList()

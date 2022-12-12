@@ -29,6 +29,13 @@ export default new Router({
             hidden: true,
             component: () =>
                 import ('@/components/index'),
+        },
+        {
+            path: '/home',
+            name: 'home',
+            hidden: true,
+            component: () =>
+                import ('@/components/home'),
         }
     ]
 })
