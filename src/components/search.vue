@@ -278,7 +278,7 @@ export default {
                 // PageSize: this.PageSize,
                 // PageIndex: this.PageIndex,
             };
-            this.$getReq("/ashx/Common.ashx", "POST", form(messger)).then((res) => {
+            this.$getReq("/ashx/Common.ashx", "POST", messger).then((res) => {
                 if (res.Success) {
                     let tableD = res.Result.GridDefine;
                     if (tableD.length > 0) {
