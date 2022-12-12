@@ -126,7 +126,7 @@ export default {
         "PageSize": "1000000000",
         "Filter": this.$store.state.Filter,
       }
-      this.$axios.post('/ashx/Common.ashx', data).then(res => {
+      this.$getReq("/ashx/Common.ashx","post",data).then(res => {
         var data2 = res.Result.data
         var nameList = []
         var obj = []
