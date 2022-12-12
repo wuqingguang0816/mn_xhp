@@ -89,13 +89,14 @@
         </div> -->
       </div>
       <div class="body_bottom chinaMap">
-        <mapEcharts v-if="barData.quotaData.length>0" height="600px" :city="city" @cityList="getcity" :barData="barData"></mapEcharts>
+        <mapEcharts v-if="barData.quotaData.length > 0" height="100%" :city="city" @cityList="getcity"
+          :barData="barData"></mapEcharts>
         <!-- <div id="dataMapecharts" style="width: 100%;height: 660px;"></div> -->
-        <div class="left_bottom" v-if="1<0">
+        <div class="left_bottom" v-if="1 < 0">
           <div class="title2">检出含量等级</div>
           <div id="gradeEcharts" style="width: 200px;height: 100px;"></div>
         </div>
-        <div class="right_bottom" v-if="1<0">
+        <div class="right_bottom" v-if="1 < 0">
           <div class="title2">平均检出量</div>
           <div> > 200</div>
           <div> 100 ~ 200</div>
@@ -199,7 +200,7 @@ export default {
       box_name: '',
       UserId: '',
       barData: { quotaData: [] },
-      city:china
+      city: china
     }
   },
   created() {
@@ -305,22 +306,22 @@ export default {
         myChart.resize();
       });
     },
-    getcity(r){
-      
-        // this.barData
-      
-       var d=JSON.parse(this.$store.state.Filter)
-       d.CITY=r
-       this.$store.state.Filter=JSON.stringify(d)
-        this.$router.push({
-                name: "QualityTwoChildren",
-                query: {
-                    userId: this.UserId,
-                    sfName: r,
-                    name:'品质数据分析'
-                },
-            });
-     
+    getcity(r) {
+
+      // this.barData
+
+      var d = JSON.parse(this.$store.state.Filter)
+      d.CITY = r
+      this.$store.state.Filter = JSON.stringify(d)
+      this.$router.push({
+        name: "QualityTwoChildren",
+        query: {
+          userId: this.UserId,
+          sfName: r,
+          name: '品质数据分析'
+        },
+      });
+
     },
     //弹窗方法
     getBox1Data() {
@@ -488,7 +489,7 @@ export default {
         "Filter": JSON.stringify(f),
       }
       this.$store.state.Filter = data.Filter
-      this.$getReq("/ashx/Common.ashx","post",data).then(res => {
+      this.$getReq("/ashx/Common.ashx", "post", data).then(res => {
         console.log(res)
         var datas = res.Result.data
         var name = [], max = [], min = [], avg = []
@@ -502,25 +503,25 @@ export default {
       })
       data.TreeID = '1000260'
       data.PageSize = '9999'
-      this.$getReq("/ashx/Common.ashx","post",data).then(res => {
+      this.$getReq("/ashx/Common.ashx", "post", data).then(res => {
         var data2 = res.Result.data
         var nameList = []
-        var obj=[]
+        var obj = []
         data2.map(r => {
           if (obj.indexOf(r.CITY) < 0) {
             obj.push(r.CITY)
-            nameList.push({name:r.CITY,center:[r.LONGITUDE,r.LATITUDE],val:[]})
+            nameList.push({ name: r.CITY, center: [r.LONGITUDE, r.LATITUDE], val: [] })
           }
         })
         nameList.map(r => {
           data2.map(res => {
             if (r.name == res.CITY) {
-              r.val.push({name:res.QJMS,value:res.GS,city:r.name})
+              r.val.push({ name: res.QJMS, value: res.GS, city: r.name })
             }
           })
         })
         console.log(nameList)
-        nameList.map(r=>{
+        nameList.map(r => {
           this.barData.quotaData.push(this.randomPieSeries(r.val, r.center, 20))
         })
       })
@@ -541,6 +542,7 @@ export default {
         label: {
           show: false
         },
+      
         labelLine: {
           show: false
         },
@@ -668,7 +670,7 @@ export default {
 
   .body_bottom {
     border-top: 1px solid #eff4f5;
-    padding: 20px 46px 20px 0;
+    padding: 0
   }
 }
 

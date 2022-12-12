@@ -222,7 +222,7 @@ export default {
 
   .body_bottom {
     border-top: 1px solid #eff4f5;
-    padding: 20px 46px 20px 0;
+    
   }
 }
 

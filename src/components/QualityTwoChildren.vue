@@ -5,7 +5,7 @@
         <div class="title">省市{{ name }}</div>
       </div>
       <div class="body_bottom chinaMap">
-        <mapEcharts v-if="city" height="600px" :city="city" @cityList="getcity" :clickshow="false" :barData="barData">
+        <mapEcharts v-if="city" height="100%" :city="city" @cityList="getcity" :clickshow="false" :barData="barData">
         </mapEcharts>
         <!-- <div id="dataMapecharts" style="width: 100%;height: 600px;"></div> -->
         <div class="left_bottom" v-if="1<0">
@@ -91,7 +91,7 @@ export default {
     this.name = this.$route.query.name
     // var getData = require("../assets/" + json_name + ".json"); // 直接引入省级地图json文件
     let str ="/apo"; //正式库是需要去掉
-    
+
     this.$axios(`/json/${r}.json`).then(getData => {
       this.city = getData
       this.getsj()
