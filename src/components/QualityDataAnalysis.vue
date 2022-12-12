@@ -77,7 +77,7 @@
             </el-col>
           </el-row>
         </el-form> -->
-        <search ref="refsearch" @getList="getbotmEcarts" name="/" :UserId="UserId" tableId="1000260"></search>
+        <search ref="refsearch" @getList="getbotmEcarts" name="/" :UserId="UserId" :tableId="tableId"></search>
       </div>
     </div>
     <div class="body1">
@@ -200,11 +200,16 @@ export default {
       box_name: '',
       UserId: '',
       barData: { quotaData: [] },
-      city: china
+      city: china,
+      tableId:'1000260'
     }
   },
   created() {
     this.UserId = this.$route.query.userId;
+    var tableId = this.$route.query.tableId;
+    if (tableId) {
+      this.tableId=tableId
+    }
   },
   mounted() {
     // this.getbotmEcarts();
