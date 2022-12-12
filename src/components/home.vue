@@ -1,6 +1,9 @@
 <template>
     <div class="home">
-          <query ref="queryTable" height="270" :listQuery="listQuery"></query>
+        <div>
+            <div></div>
+        </div>
+          <!-- <query ref="queryTable" height="270" :listQuery="listQuery"></query> -->
     </div>
   </template>
   
@@ -39,7 +42,7 @@
     },
     mounted() {
       // this.TabbleCommon()
-      this.$refs.refsearch.getData()
+    //   this.$refs.refsearch.getData()
     },
     methods: {
       TabbleCommon(f) {
