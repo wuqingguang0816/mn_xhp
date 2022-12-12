@@ -5,7 +5,7 @@ let url45 = "/limszn" // 测试环境
 import msg from "@/linbs/mesAge";
 const requests = axios.create({
         // 配置基础路径
-        baseURL: process.env.baseUrl, //'/api/limszn', //"/api/limszn", //'/api',
+        baseURL: process.env.baseUrl, // process.env.baseUrl,
         // headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
         // 请求头
         /* headers:{} */
