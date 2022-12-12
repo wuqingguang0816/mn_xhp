@@ -3,7 +3,7 @@
     <div class="list_view">
         <!-- 查询条件 -->
         <div class="top_view" ref="topView">
-            <el-form ref="form" label-position="right" style="    width: 80%;" size="mini">
+            <el-form ref="form" label-width="130px"  label-position="right" style="    width: 80%;" size="mini">
                 <el-row :gutter="5" class="elRow">
                     <div v-for="(t, i) in formArr" :key="i">
                         <el-col v-if="(t.DATALENGTH >= 100 && t.DEFAULT_TYPE == 'S')" :span="24">
@@ -16,14 +16,14 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="8" v-else>
-                            <el-form-item :label="t.TEXT_PROMPT + ':'"
+                            <el-form-item  :label="t.TEXT_PROMPT + ':'"
                                 v-if="t.DEFAULT_TYPE != 'F' && t.DEFAULT_TYPE != 'D'">
                                 <el-input style="width: 180px;" v-model="t.DEFAULT_VALUE" v-if="t.DEFAULT_TYPE == 'K'"
                                     disabled :placeholder="t.TEXT_PROMPT"></el-input>
                                 <el-input style="width: 180px;" v-model="t.DEFAULT_VALUE" v-if="t.DEFAULT_TYPE == 'S'"
                                     :placeholder="t.TEXT_PROMPT"></el-input>
 
-                                <el-select style="width: 180px;" v-model="t.DEFAULT_VALUE" v-if="
+                                <el-select filterable style="width: 180px;" v-model="t.DEFAULT_VALUE" v-if="
                                     t.DEFAULT_TYPE == 'C' ||
                                     t.DEFAULT_TYPE == 'SC' ||
                                     t.DEFAULT_TYPE == 'Q'
@@ -401,7 +401,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .list_view {
-    padding: 20px;
+    padding:10px 20px;
 
     .top_view {
         display: flex;

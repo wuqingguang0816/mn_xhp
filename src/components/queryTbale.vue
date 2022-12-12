@@ -1,16 +1,22 @@
 <template>
     <div class="table-container">
-        <el-table ref="multipleTable" :height="height" v-loading="listLoading" :data="list" border
+        <el-table :header-cell-style="{
+        background: '#f3f6fa',
+        color: '#102547',
+        textAlign: 'center',
+      }" ref="multipleTable" :height="height" v-loading="listLoading" :data="list" border
             element-loading-text="Loading" highlight-current-row tooltip-effect="dark" style="width: 100%;"
             cell-class-name="tablecenter" show-overflow-tooltip>
             <el-table-column v-for="(item, index) in tableHead" :label="item.name" :key="index" :prop="item.property" />
             <slot name="tableColumn" />
         </el-table>
         <slot name="tableBottom" />
-        <el-pagination class="pagins" hide-on-single-page background layout="prev, pager, next"
+        <!-- <el-pagination class="pagins" hide-on-single-page background layout="prev, pager, next"
             @current-change="handleCurrentChange" :current-page="listQuery.PageIndex" :total="total">
+        </el-pagination> -->
+        <el-pagination class="pagins" hide-on-single-page @current-change="handleCurrentChange" :current-page.sync="listQuery.PageIndex"
+            :page-size="listQuery.PageSize" layout="prev, pager, next, jumper" :total="total">
         </el-pagination>
-
     </div>
 </template>
   
@@ -109,7 +115,8 @@ export default {
   
 <style>
 .pagins {
-    padding: 10px 0;
+    padding: 10px;
+    text-align: right;
 }
 </style>
   

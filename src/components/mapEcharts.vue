@@ -116,7 +116,12 @@ export default {
                     }
                 },
                 tooltip: {},
-                legend: {},
+                legend: {
+                    orient: 'middle',
+                    top: '30%',
+                    right: 50,
+
+                },
                 series: quotaData
             })
         }
