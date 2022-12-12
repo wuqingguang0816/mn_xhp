@@ -7,13 +7,13 @@ import ElementUI from 'element-ui'
 import * as XLSX from "xlsx";
 import { getReq } from "./api/index"
 import elTableInfiniteScroll from 'el-table-infinite-scroll';
-
+import request from './utils/request'
 // import axios from 'axios'
 
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.config.productionTip = false
 Vue.prototype.$getReq = getReq; //封装请求方式
-Vue.prototype.$axios = axios; //
+Vue.prototype.$axios = request; //
 Vue.prototype.$XLSX = XLSX; //
 
 Vue.prototype.$fileUrl = "/api/ashx/Common.ashx"; // 正式版需要取消api

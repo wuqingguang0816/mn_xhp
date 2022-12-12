@@ -11,6 +11,7 @@ const store = new Vuex.Store({
         tableId: "", //
         fileId: "",
         isFalse: false,
+        Filter: null
     },
     //
     mutations: {
