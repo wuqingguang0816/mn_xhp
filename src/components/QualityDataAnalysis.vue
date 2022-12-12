@@ -477,15 +477,15 @@ export default {
     },
     getbotmEcarts(f) {
       console.log(f)
-      var a = { "XMMC": "脂肪", "TNAME": "FXXMPT_WRW_SR", "DTYPE": "JYRQ", "KSRQ": "2022-01-01", "JSRQ": "2022-12-31", "CITY": "*", "JTYPE": "*", "NYDMC": "*", "JCTYPE": "*" }
+      // var a = { "XMMC": "脂肪", "TNAME": "FXXMPT_WRW_SR", "DTYPE": "JYRQ", "KSRQ": "2022-01-01", "JSRQ": "2022-12-31", "CITY": "*", "JTYPE": "*", "NYDMC": "*", "JCTYPE": "*" }
       const data = {
         "SType": "GetTableData",
         "UserId": this.UserId,
         "ExcelID": "",
         "TreeID": "1000262",
         "PageIndex": "1",
-        "PageSize": "10",
-        "Filter": JSON.stringify(a),
+        "PageSize": "10000000",
+        "Filter": JSON.stringify(f),
       }
       this.$store.state.Filter = data.Filter
       this.$axios.post('/api/ashx/Common.ashx', data).then(res => {
