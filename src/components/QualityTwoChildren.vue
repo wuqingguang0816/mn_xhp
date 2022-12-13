@@ -92,14 +92,17 @@ export default {
     let r = this.$route.query.sfName
     console.log(this.$route.query)
     this.name = this.$route.query.name
-    var getData = require("../../static/json/" + r + ".json"); // 直接引入省级地图json文件
+    // var getData = require("../../static/json/" + r + ".json"); // 直接引入省级地图json文件
     // let str ="/apo"; //正式库是需要去掉
 
-    // this.$axios(`/json/${r}.json`).then(getData => {
-    this.city = getData
-    this.getsj()
-    // })
 
+
+    this.$getReq("/ashx/Common.ashx", "post", { SType: 'IPCONFIG' }).then(res => {
+      this.$axios(`${res}/json/${r}.json`).then(getData => {
+        this.city = getData
+        this.getsj()
+      })
+    })
   },
   mounted() {
     this.getEcharts()//表格数据
@@ -108,7 +111,7 @@ export default {
 
   },
   methods: {
-    goback(){
+    goback() {
       this.$router.go(-1);
     },
     // 数据
@@ -611,9 +614,10 @@ export default {
     width: 88px;
   }
 }
-.goback{
+
+.goback {
   line-height: 58px;
-    margin-right: 20px;
+  margin-right: 20px;
 }
 </style>
   
