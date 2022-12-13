@@ -149,53 +149,7 @@ export default {
         date_type: '1',
         times: []
       },
-      sourcesData: [{
-        value: '选项1',
-        label: '生乳样品信息表1'
-      }, {
-        value: '选项2',
-        label: '生乳样品信息表2'
-      }, {
-        value: '选项3',
-        label: '生乳样品信息表3'
-      }],
       histogram: { float: "left", width: "100%", height: "380px" }, //图表样式
-      sfData: [
-        { name: "北京", selected: false, value: 0 },
-        { name: "天津", selected: false, value: 0 },
-        { name: "上海", selected: false, value: 0 },
-        { name: "重庆", selected: false, value: 0 },
-        { name: "河北", selected: false, value: 12 },
-        { name: "河南", selected: false, value: 12 },
-        { name: "云南", selected: false, value: 0 },
-        { name: "辽宁", selected: false, value: 0 },
-        { name: "黑龙江", selected: false, value: 0 },
-        { name: "湖南", selected: false, value: 190 },
-        { name: "安徽", selected: false, value: 0 },
-        { name: "山东", selected: false, value: 0 },
-        { name: "新疆", selected: false, value: 0 },
-        { name: "江苏", selected: false, value: 0 },
-        { name: "浙江", selected: false, value: 0 },
-        { name: "江西", selected: false, value: 0 },
-        { name: "湖北", selected: false, value: 0 },
-        { name: "广西", selected: false, value: 0 },
-        { name: "甘肃", selected: false, value: 0 },
-        { name: "山西", selected: false, value: 150 },
-        { name: "内蒙古", selected: false, value: 210 },
-        { name: "陕西", selected: false, value: 0 },
-        { name: "吉林", selected: false, value: 0 },
-        { name: "福建", selected: false, value: 0 },
-        { name: "贵州", selected: false, value: 0 },
-        { name: "广东", selected: false, value: 0 },
-        { name: "青海", selected: false, value: 120 },
-        { name: "西藏", selected: false, value: 320 },
-        { name: "四川", selected: false, value: 0 },
-        { name: "宁夏", selected: false, value: 0 },
-        { name: "海南", selected: false, value: 0 },
-        { name: "台湾", selected: false, value: 0 },
-        { name: "香港", selected: false, value: 0 },
-        { name: "澳门", selected: false, value: 0 },
-      ],
       is_show: false,
       box_name: '',
       UserId: '',
@@ -229,87 +183,6 @@ export default {
     //获取日期
     timeChange(e) {
       this.formData.times = e
-    },
-    //中国地图
-    mYecharts() {
-      echarts.registerMap("china", china, {});
-      console.log(china)
-      //加载中国地图
-      var customSettings = [];
-      var that = this;
-      this.sfData.forEach(function (item, index) {
-        let iScolor;
-        if (item.value > 0 && item.value < 101) {
-          iScolor = "#C6E5F5";
-        } else if (item.value > 100 && item.value < 201) {
-          iScolor = "#4BB1EE";
-        } else if (item.value > 200) {
-          iScolor = "#0086D5";
-        } else {
-          iScolor = "#fff";
-        }
-        customSettings.push({
-          name: item.name,
-          itemStyle: {
-            areaColor: iScolor,
-          },
-        });
-      });
-      var myChart = echarts.init(document.getElementById("dataMapecharts"));
-      // 绘制图表
-      let sfData = this.sfData
-      var chinaMap = {
-        zoom: 12,
-        selectedMode: "single",
-        geo: {
-          // 设置地图的显示信息
-          map: "china", // 注意  哪个区域的就显示哪个区域的名称
-          regions: customSettings,
-          label: {
-            show: true,
-            normal: {
-              show: false,
-              textStyle: {
-                color: "#000",
-                fontSize: 12,
-              },
-            },
-            emphasis: {
-              show: true,
-            },
-          },
-          roam: false,
-          itemStyle: {
-            normal: {
-              borderColor: "#ccc",
-              areaColor: "#e0f3f8",
-            },
-            emphasis: {
-              areaColor: "#9DD4F4",
-              shadowColor: "rgba(0, 0, 0, 0.5)",
-            },
-          },
-          top: 0,
-        },
-        series: [
-          {
-            type: "map",
-            geoIndex: 0, // 不可缺少，否则无tooltip 指示效果
-            data: this.sfData
-          },
-        ],
-      };
-
-      myChart.on('click', function (data) {
-        let box_name = data.name
-        console.log(data);
-        that.box_name = box_name
-        that.is_show = true
-      });
-      myChart.setOption(chinaMap);
-      window.addEventListener("resize", function () {
-        myChart.resize();
-      });
     },
     getcity(r) {
 
@@ -497,14 +370,16 @@ export default {
       this.$getReq("/ashx/Common.ashx", "post", data).then(res => {
         console.log(res)
         var datas = res.Result.data
-        var name = [], max = [], min = [], avg = []
+        var name = [], max = [], min = [], avg = [],P50List=[],P95list=[]
         datas.map(r => {
           name.push(r.CITY)
           avg.push(r.AVGVLAUE)
           max.push(r.MAXVLAUE)
           min.push(r.MINVLAUE)
+          P50List.push(r.P50)
+          P95list.push(r.P95)
         })
-        this.initEcharts(name, max, min, avg)
+        this.initEcharts(name, max, min, avg,P50List,P95list)
       })
       data.TreeID = '1000260'
       data.PageSize = '9999'
@@ -538,7 +413,7 @@ export default {
         coordinateSystem: 'geo',
         tooltip: {
           formatter: function (params) {
-            console.log(params)
+            // console.log(params)
             var str = '<div>'
             str += `${params.data.city}<br/>${params.data.name}:${params.data.value}</div>`
             return str
@@ -558,7 +433,7 @@ export default {
       };
     },
     //底部柱状图
-    initEcharts(name, max, min, avg) {
+    initEcharts(name, max, min, avg,P50List,P95list) {
       const histogram = echarts.init(document.getElementById("histogram"));
 
 
@@ -581,7 +456,7 @@ export default {
           }
         },
         legend: {
-          data: ['最大值', '最小值', '均值']
+          data: ['最大值', '最小值', '均值','P50','P95']
         },
         xAxis: [
           {
@@ -624,6 +499,28 @@ export default {
               }
             },
             data: avg
+          },
+          {
+            name: 'P50',
+            type: 'bar',
+
+            tooltip: {
+              valueFormatter: function (value) {
+                return value
+              }
+            },
+            data: P50List
+          },
+          {
+            name: 'P95',
+            type: 'bar',
+
+            tooltip: {
+              valueFormatter: function (value) {
+                return value
+              }
+            },
+            data: P95list
           }
         ]
       }

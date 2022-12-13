@@ -3,16 +3,19 @@
     <div class="body1">
       <div class="body_top">
         <div class="title">省市{{ name }}</div>
+        <div class="goback">
+          <el-button @click="goback" type="primary">返回</el-button>
+        </div>
       </div>
       <div class="body_bottom chinaMap">
         <mapEcharts v-if="city" height="100%" :city="city" @cityList="getcity" :clickshow="false" :barData="barData">
         </mapEcharts>
         <!-- <div id="dataMapecharts" style="width: 100%;height: 600px;"></div> -->
-        <div class="left_bottom" v-if="1<0">
+        <div class="left_bottom" v-if="1 < 0">
           <div class="title2">检出含量等级</div>
           <div id="gradeEcharts" style="width: 200px;height: 100px;"></div>
         </div>
-        <div class="right_bottom" v-if="1<0">
+        <div class="right_bottom" v-if="1 < 0">
           <div class="title2">平均检出量</div>
           <div> > 2.5</div>
           <div> 2.0 ~ 2.5</div>
@@ -89,22 +92,26 @@ export default {
     let r = this.$route.query.sfName
     console.log(this.$route.query)
     this.name = this.$route.query.name
-    // var getData = require("../assets/" + json_name + ".json"); // 直接引入省级地图json文件
-    let str ="/apo"; //正式库是需要去掉
+    var getData = require("../../static/json/" + r + ".json"); // 直接引入省级地图json文件
+    // let str ="/apo"; //正式库是需要去掉
 
-    this.$axios(`/json/${r}.json`).then(getData => {
-      this.city = getData
-      this.getsj()
-    })
+    // this.$axios(`/json/${r}.json`).then(getData => {
+    this.city = getData
+    this.getsj()
+    // })
 
   },
   mounted() {
     this.getEcharts()//表格数据
-    this.mYgradeEcharts();
-    this.getBox1Data()
-    
+    // this.mYgradeEcharts();
+    // this.getBox1Data()
+
   },
   methods: {
+    goback(){
+      this.$router.go(-1);
+    },
+    // 数据
     getsj() {
       const data = {
         "SType": "GetTableData",
@@ -115,7 +122,7 @@ export default {
         "PageSize": "1000000000",
         "Filter": this.$store.state.Filter,
       }
-      this.$getReq("/ashx/Common.ashx","post",data).then(res => {
+      this.$getReq("/ashx/Common.ashx", "post", data).then(res => {
         var data2 = res.Result.data
         var nameList = []
         var obj = []
@@ -412,8 +419,8 @@ export default {
     },
     getEcharts() {
       console.log(this.listQuery)
-      this.listQuery.UserId=this.UserId
-      this.listQuery.Filter=this.$store.state.Filter
+      this.listQuery.UserId = this.UserId
+      this.listQuery.Filter = this.$store.state.Filter
       this.$refs.queryTable.getList()
       // const data = {
       //   "SType": "GetTableData",
@@ -603,6 +610,10 @@ export default {
   .btns {
     width: 88px;
   }
+}
+.goback{
+  line-height: 58px;
+    margin-right: 20px;
 }
 </style>
   
