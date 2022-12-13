@@ -130,6 +130,9 @@
         </el-col> -->
       </div>
     </div>
+    <el-dialog title="品质数据分析" fullscreen  :visible.sync="dialogVisible"  >
+      <QualityTwoChildren ref="QualityTwoChildren" name="品质数据分析" :UserId="UserId" :CITY="CITY"></QualityTwoChildren>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -137,11 +140,15 @@ import * as echarts from "echarts";
 import mapEcharts from './mapEcharts.vue'
 import search from './search.vue'
 import china from "@/assets/china.json";  //地图包
+import QualityTwoChildren from './QualityTwoChildren.vue'
+
 export default {
   name: 'QualityDataAnalysis',
-  components: { search, mapEcharts },
+  components: { search, mapEcharts,QualityTwoChildren },
   data() {
     return {
+      dialogVisible:false,
+      CITY:'',
       open_folds: true,
       text: '< 100',
       formData: {
@@ -155,14 +162,14 @@ export default {
       UserId: '',
       barData: { quotaData: [] },
       city: china,
-      tableId:'1000260'
+      tableId: '1000260'
     }
   },
   created() {
     this.UserId = this.$route.query.userId;
     var tableId = this.$route.query.tableId;
     if (tableId) {
-      this.tableId=tableId
+      this.tableId = tableId
     }
   },
   mounted() {
@@ -191,14 +198,20 @@ export default {
       var d = JSON.parse(this.$store.state.Filter)
       d.CITY = r
       this.$store.state.Filter = JSON.stringify(d)
-      this.$router.push({
-        name: "QualityTwoChildren",
-        query: {
-          userId: this.UserId,
-          sfName: r,
-          name: '品质数据分析'
-        },
-      });
+      this.CITY=r
+      this.dialogVisible=true
+      var that=this
+      this.$nextTick(()=>{
+        that.$refs.QualityTwoChildren.getData()
+      })
+      // this.$router.push({
+      //   name: "QualityTwoChildren",
+      //   query: {
+      //     userId: this.UserId,
+      //     sfName: r,
+      //     name: '品质数据分析'
+      //   },
+      // });
 
     },
     //弹窗方法
@@ -370,7 +383,7 @@ export default {
       this.$getReq("/ashx/Common.ashx", "post", data).then(res => {
         console.log(res)
         var datas = res.Result.data
-        var name = [], max = [], min = [], avg = [],P50List=[],P95list=[]
+        var name = [], max = [], min = [], avg = [], P50List = [], P95list = []
         datas.map(r => {
           name.push(r.CITY)
           avg.push(r.AVGVLAUE)
@@ -379,7 +392,7 @@ export default {
           P50List.push(r.P50)
           P95list.push(r.P95)
         })
-        this.initEcharts(name, max, min, avg,P50List,P95list)
+        this.initEcharts(name, max, min, avg, P50List, P95list)
       })
       data.TreeID = '1000260'
       data.PageSize = '9999'
@@ -422,7 +435,7 @@ export default {
         label: {
           show: false
         },
-      
+
         labelLine: {
           show: false
         },
@@ -433,7 +446,7 @@ export default {
       };
     },
     //底部柱状图
-    initEcharts(name, max, min, avg,P50List,P95list) {
+    initEcharts(name, max, min, avg, P50List, P95list) {
       const histogram = echarts.init(document.getElementById("histogram"));
 
 
@@ -456,7 +469,7 @@ export default {
           }
         },
         legend: {
-          data: ['最大值', '最小值', '均值','P50','P95']
+          data: ['最大值', '最小值', '均值', 'P50', 'P95']
         },
         xAxis: [
           {

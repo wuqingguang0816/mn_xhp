@@ -23,11 +23,15 @@ export default {
         },
         barData: {
             type: Object,
-            required: true
+            default: () => {
+                return {}
+            }
         },
         city: {
             type: Object,
-            required: true
+            default: () => {
+                return {}
+            }
         },
         clickshow: {
             type: Boolean,
@@ -70,25 +74,17 @@ export default {
             this.chart = echarts.init(this.$el, 'macarons')
             this.setOptions(this.barData)
         },
-        setOptions({ quotaData,name } = {}) {
+        setOptions({ quotaData, name } = {}) {
             var thta = this
             this.chart.setOption({
                 legend: {
                     // top: 'bottom'，
                     show: false
                 },
-                toolbox: {
-                    show: true,
-                    feature: {
-                        mark: { show: true },
-                        dataView: { show: true, readOnly: false },
-                        restore: { show: true },
-                        saveAsImage: { show: true }
-                    }
-                },
+
                 series: [
                     {
-                        name: name?name:'测试',
+                        name: name ? name : '测试',
                         type: 'pie',
                         radius: [50, 250],
                         center: ['50%', '50%'],

@@ -16,9 +16,22 @@
                 </div>
             </div>
         </div>
-        <div>
-            <div></div>
-            <pieCharts />
+        <div class="main">
+            <div class="main_1">
+                <div class="main_div"> <pieCharts height="100%" /></div>
+                <div class="main_div"> <pieCharts height="100%" /></div>
+                <div class="main_div"> <pieCharts height="100%" /></div>
+            </div>
+            <div class="main_1">
+                <div class="main_div"></div>
+                <div class="main_div"></div>
+                <div class="main_div"></div>
+            </div>
+            <div class="main_1">
+                <div class="main_div"></div>
+                <div class="main_div2"></div>
+            </div>
+           
         </div>
         <!-- <query ref="queryTable" height="270" :listQuery="listQuery"></query> -->
     </div>
@@ -114,17 +127,17 @@ export default {
 
         .home_div {
             flex: 1;
-            padding: 20px;
-            margin: 0 10px;
+            padding: 1.25rem;
+            margin: 0 0.625rem;
             border-radius: 0.5rem;
             display: flex;
             color: #fff;
             font-size: 1.2rem;
-
+            height: 4rem;
             .imgs {
-                width: 60px;
-                height: 60px;
-                line-height: 60px;
+                width: 3.75rem;
+                height: 3.75rem;
+                line-height: 3.75rem;
                 text-align: center;
                 border-radius: 8px;
 
@@ -144,12 +157,25 @@ export default {
                     font-weight: bold;
                 }
                 p:nth-child(2){
-                    color: #BED4F5;
+                    color: rgba(255,255,255,0.7);
                 }
             }
         }
     }
 
+    .main{
+        display: flex;
+        flex-flow: column;
+        height: calc(100% - 9.5rem);
+        .main_1{
+            display: flex;
+            flex: 1;
+            margin-top: 0.625rem;
+            .main_div{
+                flex: 1;
+            }
+        }
+    }
 }
 </style>
   

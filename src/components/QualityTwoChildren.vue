@@ -3,9 +3,9 @@
     <div class="body1">
       <div class="body_top">
         <div class="title">省市{{ name }}</div>
-        <div class="goback">
+        <!-- <div class="goback">
           <el-button @click="goback" type="primary">返回</el-button>
-        </div>
+        </div> -->
       </div>
       <div class="body_bottom chinaMap">
         <mapEcharts v-if="city" height="100%" :city="city" @cityList="getcity" :clickshow="false" :barData="barData">
@@ -34,18 +34,6 @@
         <div class="title">省市{{ name }}</div>
       </div>
       <div class="body_bottom">
-        <!-- <el-table
-          :data="tableData"
-          :header-cell-style="{'text-align':'center','background':'#f8f8f8','height':'54px'}"
-          :cell-style="{'text-align':'center','height':'54px'}"
-          height="330"
-          style="width: 100%">
-          <el-table-column v-for="(item, index) in tableHead" :label="item.name" :key="index"
-              :prop="item.property" />
-          </el-table>
-          <el-pagination class="pagins" background layout="prev, pager, next" @current-change="handleCurrentChange"
-            :current-page="PageIndex" :total="recordsTotal">
-          </el-pagination> -->
         <query ref="queryTable" height="330" :listQuery="listQuery"></query>
       </div>
     </div>
@@ -59,6 +47,20 @@ export default {
   name: 'QualityTwoChildren',
   components: {
     query, mapEcharts
+  },
+  props: {
+    UserId: {
+      type: String,
+      default: ''
+    },
+    CITY: {
+      type: String,
+      default: ''
+    },
+    name: {
+      type: String,
+      default: ''
+    },
   },
   data() {
     return {
@@ -83,34 +85,38 @@ export default {
       json_data: [],
       barData: { quotaData: [] },
       city: '',
-      name: ''
+
     }
   },
   created() {
-    let that = this;
-    this.UserId = this.$route.query.userId;
-    let r = this.$route.query.sfName
-    console.log(this.$route.query)
-    this.name = this.$route.query.name
+    // let that = this;
+    // this.UserId = this.$route.query.userId;
+    // let r = this.$route.query.sfName
+    // console.log(this.$route.query)
+    // this.name = this.$route.query.name
     // var getData = require("../../static/json/" + r + ".json"); // 直接引入省级地图json文件
     // let str ="/apo"; //正式库是需要去掉
 
 
 
-    this.$getReq("/ashx/Common.ashx", "post", { SType: 'IPCONFIG' }).then(res => {
-      this.$axios(`${res}/json/${r}.json`).then(getData => {
-        this.city = getData
-        this.getsj()
-      })
-    })
+
   },
   mounted() {
-    this.getEcharts()//表格数据
+    //表格数据
     // this.mYgradeEcharts();
     // this.getBox1Data()
 
   },
   methods: {
+    getData() {
+      this.$getReq("/ashx/Common.ashx", "post", { SType: 'IPCONFIG' }).then(res => {
+        this.$axios(`${res}/json/${this.CITY}.json`).then(Data => {
+          this.city = Data
+          this.getsj()
+          this.getEcharts()
+        })
+      })
+    },
     goback() {
       this.$router.go(-1);
     },
@@ -464,7 +470,7 @@ export default {
   position: absolute;
   width: 100%;
   height: 100%;
-  top: 0;
+  top: 50px;
   left: 0;
   overflow-y: auto;
 }
@@ -491,7 +497,7 @@ export default {
 
   .body_bottom {
     border-top: 1px solid #eff4f5;
-    padding: 20px 46px 20px 0;
+    // padding: 20px 46px 20px 0;
   }
 }
 
