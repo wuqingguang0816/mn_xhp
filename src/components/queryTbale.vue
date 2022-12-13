@@ -7,7 +7,7 @@
       }" ref="multipleTable" :height="height" v-loading="listLoading" :data="list" border
             element-loading-text="Loading" highlight-current-row tooltip-effect="dark" style="width: 100%;"
             cell-class-name="tablecenter" show-overflow-tooltip>
-            <el-table-column v-for="(item, index) in tableHead" :label="item.name" :key="index" :prop="item.property" />
+            <el-table-column v-for="(item, index) in tableHead" :label="item.name" align="center" :key="index" :prop="item.property" />
             <slot name="tableColumn" />
         </el-table>
         <slot name="tableBottom" />
