@@ -74,29 +74,45 @@ export default {
             this.chart = echarts.init(this.$el, 'macarons')
             this.setOptions(this.barData)
         },
-        setOptions({ quotaData, radius } = {}) {
+        setOptions({ quotaData, nameData, legendData } = {}) {
             var thta = this
             this.chart.setOption({
-                legend: {
-                    // top: 'bottom'，
-                    show: false
-                },
                 tooltip: {
-                    trigger: 'item'
-                },
-                series: [
-                    {
-                        // name: name ? name : '测试',
-                        type: 'pie',
-                        radius: radius,
-                        center: ['50%', '50%'],
-                        roseType: 'area',
-                        itemStyle: {
-                            // borderRadius: 8
-                        },
-                        data: quotaData
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        crossStyle: {
+                            color: '#999'
+                        }
                     }
-                ]
+                },
+                grid: {
+                    left: '5%',
+                    top: '20',
+                    right: '20',
+                    bottom: 30
+                },
+                legend: {
+                    data: legendData,
+                    // left: 'right',
+                    right:10
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: nameData,
+                        axisPointer: {
+                            type: 'shadow'
+                        }
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+
+                    }
+                ],
+                series: quotaData
             })
         }
     }

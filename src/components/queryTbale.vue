@@ -7,14 +7,14 @@
       }" ref="multipleTable" :height="height" v-loading="listLoading" :data="list" border
             element-loading-text="Loading" highlight-current-row tooltip-effect="dark" style="width: 100%;"
             cell-class-name="tablecenter" show-overflow-tooltip>
-            <el-table-column v-for="(item, index) in tableHead" :label="item.name" align="center" :key="index" :prop="item.property" />
-            <slot name="tableColumn" />
+            <el-table-column v-if="tableColumn" show-overflow-tooltip v-for="(item, index) in tableHead" :label="item.name" align="center" :key="index" :prop="item.property" />
+            <slot  name="tableColumn" />
         </el-table>
         <slot name="tableBottom" />
         <!-- <el-pagination class="pagins" hide-on-single-page background layout="prev, pager, next"
             @current-change="handleCurrentChange" :current-page="listQuery.PageIndex" :total="total">
         </el-pagination> -->
-        <el-pagination class="pagins" hide-on-single-page @current-change="handleCurrentChange" :current-page.sync="listQuery.PageIndex"
+        <el-pagination v-if="total>0&&totalshow" class="pagins" hide-on-single-page @current-change="handleCurrentChange" :current-page.sync="listQuery.PageIndex"
             :page-size="listQuery.PageSize" layout="prev, pager, next, jumper" :total="total">
         </el-pagination>
     </div>
@@ -37,6 +37,14 @@ export default {
             type: String,
             default: '100%'
         },
+        tableColumn:{
+            type:Boolean,
+            default:true
+        },
+        totalshow:{
+            type:Boolean,
+            default:true
+        },
         api: {
             type: Object,
             default: () => {
@@ -49,7 +57,7 @@ export default {
     data() {
         return {
             list: [],
-            total: 1,
+            total: 0,
             tableHead: [],
             listLoading: false
         }
@@ -118,6 +126,9 @@ export default {
 .pagins {
     padding: 10px;
     text-align: right;
+}
+.table-container {
+
 }
 </style>
   
