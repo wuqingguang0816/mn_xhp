@@ -36,6 +36,13 @@ export default new Router({
             hidden: true,
             component: () =>
                 import ('@/components/home'),
+        },
+        {
+            path: '/foodSafety',
+            name: 'foodSafety',
+            hidden: true,
+            component: () =>
+                import ('@/components/foodSafety'),
         }
     ]
 })

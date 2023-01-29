@@ -251,8 +251,8 @@ export default {
         }
     },
     created() {
-        this.getliulan()
         this.UserId = this.$route.query.userId;
+        this.getliulan()
     },
     mounted() {
         // this.TabbleCommon()
@@ -302,6 +302,7 @@ export default {
                 Method: 'Visit',
                 UserId: this.UserId
             }
+            console.log(this.UserId)
             this.$getReq('/Views/Screen/SafetyHotspotsAPI.ashx', "post", data).then(res => { })
         },
         getlist(list) {
@@ -513,7 +514,7 @@ export default {
         width: 100%;
         left: 0;
         line-height: 3rem;
-        box-shadow: 0 0 10px 1px #000;
+        box-shadow: 0 0 10px 1px rgba(0,0,0,0.3);
 
         img {
             width: 3rem;

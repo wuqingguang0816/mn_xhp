@@ -12,7 +12,6 @@ const requests = axios.create({
     })
     // 配置拦截器
 requests.interceptors.request.use(config => {
-    console.log(config)
     if (config.method === 'post') {
         const formData = new FormData();
 
