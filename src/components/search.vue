@@ -43,14 +43,14 @@
                 v-if="t.DEFAULT_TYPE != 'F' && t.DEFAULT_TYPE != 'D'"
               >
                 <el-input
-                  style="width: 180px"
+                 
                   v-model="t.DEFAULT_VALUE"
                   v-if="t.DEFAULT_TYPE == 'K'"
                   disabled
                   :placeholder="t.TEXT_PROMPT"
                 ></el-input>
                 <el-input
-                  style="width: 180px"
+                 
                   v-model="t.DEFAULT_VALUE"
                   v-if="t.DEFAULT_TYPE == 'S'"
                   :placeholder="t.TEXT_PROMPT"
@@ -67,7 +67,7 @@
                     filterable
                     multiple
                     collapse-tags
-                    style="width: 180px"
+                   
                     v-model="t.DEFAULT_VALUE"
                     :placeholder="t.TEXT_PROMPT"
                   >
@@ -82,7 +82,7 @@
                   <el-select
                     v-else
                     filterable
-                    style="width: 180px"
+                   
                     v-model="t.DEFAULT_VALUE"
                     :placeholder="t.TEXT_PROMPT"
                   >
@@ -97,14 +97,14 @@
                 </div>
 
                 <el-input
-                  style="width: 180px"
+                 
                   v-model="t.DEFAULT_VALUE"
                   type=" number"
                   v-if="t.DEFAULT_TYPE == 'N'"
                   :placeholder="t.TEXT_PROMPT"
                 ></el-input>
                 <el-input
-                  style="width: 180px"
+                 
                   v-model="t.DEFAULT_VALUE"
                   v-if="t.DEFAULT_TYPE == 'T'"
                   :placeholder="t.TEXT_PROMPT"
@@ -116,7 +116,7 @@
                 v-if="t.DEFAULT_TYPE == 'D'"
               >
                 <el-date-picker
-                  style="width: 180px"
+                 style="width: 100%;"
                   v-if="t.EXT1 == '/' || !t.EXT1 || t.EXT1 == '%Y-%m-%d'"
                   v-model="t.DEFAULT_VALUE"
                   type="date"
@@ -126,7 +126,7 @@
                 >
                 </el-date-picker>
                 <el-date-picker
-                  style="width: 180px"
+                style="width: 100%;"
                   v-else-if="t.EXT1 == '%Y-%m-%d %H:%M:%S'"
                   v-model="t.DEFAULT_VALUE"
                   value-format="yyyy-MM-dd hh:mm:ss"
@@ -136,7 +136,7 @@
                 >
                 </el-date-picker>
                 <el-date-picker
-                  style="width: 180px"
+                style="width: 100%;"
                   v-else-if="t.EXT1 == '%Y-%m-%d %H:%M'"
                   v-model="t.DEFAULT_VALUE"
                   value-format="yyyy-MM-dd hh:mm"
@@ -146,7 +146,7 @@
                 >
                 </el-date-picker>
                 <el-date-picker
-                  style="width: 180px"
+                style="width: 100%;"
                   v-else-if="t.EXT1 == '%Y'"
                   v-model="t.DEFAULT_VALUE"
                   value-format="yyyy"
@@ -156,7 +156,7 @@
                 >
                 </el-date-picker>
                 <el-date-picker
-                  style="width: 180px"
+                style="width: 100%;"
                   v-else-if="t.EXT1 == '%Y-%m'"
                   v-model="t.DEFAULT_VALUE"
                   value-format="yyyy-MM"
@@ -170,7 +170,7 @@
           </div>
         </el-row>
       </el-form>
-      <div class="btn_view">
+      <div class="btn_view" style="margin-left: 10px;margin-top: 5px;">
         <el-button
           size="mini"
           type="primary"
