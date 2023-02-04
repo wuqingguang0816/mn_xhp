@@ -24,6 +24,20 @@ export default new Router({
                 import ('@/components/QualityDataAnalysis'),
         },
         {
+            path: '/pesticides',
+            name: 'pesticides',
+            hidden: true,
+            component: () =>
+                import ('@/components/pesticides'),
+        },
+        {
+            path: '/pesticides2',
+            name: 'pesticides2',
+            hidden: true,
+            component: () =>
+                import ('@/components/pesticides2'),
+        },
+        {
             path: '/',
             name: 'index',
             hidden: true,

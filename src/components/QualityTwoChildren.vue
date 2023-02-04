@@ -14,7 +14,7 @@
           :city="city"
           @cityList="getcity"
           :clickshow="false"
-          :barData="barData"
+          :barData="barData2"
         >
         </mapEcharts>
         <!-- <div id="dataMapecharts" style="width: 100%;height: 600px;"></div> -->
@@ -96,7 +96,7 @@ export default {
       is_show: false,
       box_name: "",
       json_data: [],
-      barData: { quotaData: [] },
+      barData2: { quotaData: [] },
       city: "",
     };
   },
@@ -121,6 +121,7 @@ export default {
       this.$getReq("/ashx/Common.ashx", "post", { SType: "IPCONFIG" }).then(
         (res) => {
           this.$axios(`${res}/json/${this.CITY}.json`).then((Data) => {
+            // this.$axios(`api/json/${this.CITY}.json`).then((Data) => {
             this.city = Data;
             this.getsj();
             this.getEcharts();
@@ -133,7 +134,7 @@ export default {
     },
     // 数据
     getsj() {
-      this.barData={quotaData: []};
+      this.barData2.quotaData=[];
       const data = {
         SType: "GetTableData",
         UserId: this.UserId,
@@ -166,12 +167,12 @@ export default {
             });
           });
           nameList.map((r) => {
-            this.barData.quotaData.push(
+            this.barData2.quotaData.push(
               this.randomPieSeries(r.val, r.center, 20)
             );
           });
         }else{
-          this.barData={quotaData: []};
+          this.barData2.quotaData=[];
         }
       });
     },

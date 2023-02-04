@@ -8,7 +8,7 @@ import { isRelogin } from '@/utils/request'
 
 NProgress.configure({ showSpinner: true }) // NProgress Configuration
 
-const whiteList = ['/index', '/QualityDataAnalysis','/QualityTwo','/QualityTwoChildren'] // no redirect whitelist
+const whiteList = ['/index', '/pesticides2', '/pesticides', '/QualityDataAnalysis', '/QualityTwo', '/QualityTwoChildren'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
     // start progress bar
@@ -38,7 +38,7 @@ router.beforeEach(async(to, from, next) => {
                         next({...to, replace: true }) // hack方法 确保addRoutes已完成
                     })
                 }).catch(err => {
-                    
+
                 })
             } else {
                 next()

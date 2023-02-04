@@ -5,9 +5,10 @@ import { getToken } from '@/utils/auth'
 import errorCode from '@/utils/errorCode'
 
 export const isRelogin = { show: false }
-    // axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8;'
+    // axios.defaults.headers['Content-Type'] = 'application/octet-stream'
 axios.defaults.headers['Access-Control-Allow-Origin'] = '*'
-    // 创建axios实例
+
+// 创建axios实例
 const service = axios.create({
         baseURL: process.env.VUE_APP_BASE_API,
         // baseURL: 'http://192.168.1.45',
