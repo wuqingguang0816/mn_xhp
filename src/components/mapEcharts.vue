@@ -1,7 +1,7 @@
 <template>
     <div :class="className" :style="{ height: height, width: width }" />
 </template>
-  
+
 <script>
 import * as echarts from "echarts";
 require('echarts/theme/macarons') // echarts theme
@@ -102,28 +102,50 @@ export default {
         },
 
 
-        setOptions({ quotaData } = {}) {
+        setOptions({ quotaData, showColor } = {}) {
             var thta = this
-            this.chart.setOption({
-                geo: {
-                    map: 'China',
-                    roam: true,
-                    itemStyle: {
-                        areaColor: '#e7e8ea'
+            if (showColor && showColor.show) {
+                this.chart.setOption({
+                    geo: {
+                        type: 'map',
+                        map: 'China',
+                        label: {
+                            show: true
+                        },
+                        roam: true,
+                        regions: showColor.max,
                     },
-                    label: {
-                        show: true
-                    }
-                },
-                tooltip: {},
-                legend: {
-                    orient: 'middle',
-                    top: '30%',
-                    right: 50,
+                    tooltip: {},
+                    legend: {
+                        orient: 'middle',
+                        top: '30%',
+                        right: 50,
+                    },
+                    series: quotaData
+                })
+            } else {
+                this.chart.setOption({
+                    geo: {
+                        map: 'China',
+                        roam: true,
+                        itemStyle: {
+                            areaColor: '#e7e8ea'
+                        },
+                        label: {
+                            show: true
+                        }
+                    },
+                    tooltip: {},
+                    legend: {
+                        orient: 'middle',
+                        top: '30%',
+                        right: 50,
 
-                },
-                series: quotaData
-            })
+                    },
+                    series: quotaData
+                })
+            }
+
         }
     }
 }
@@ -134,4 +156,3 @@ export default {
     height: 660px;
 }
 </style>
-  

@@ -4,106 +4,93 @@
       <div class="body_top">
         <div class="title">筛选条件</div>
         <div class="fold_right" @click="open_fold">
-          <span>{{ open_folds ? "折叠" : "展开" }}</span>
-          <i
-            :class="open_folds ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"
-          ></i>
+          <span>{{ open_folds? "折叠": "展开" }}</span>
+          <i :class="open_folds ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
         </div>
       </div>
       <div class="body_bottom" v-show="open_folds">
         <!-- <el-form ref="forms" :model="formData" label-width="130px">
-          <el-row>
-            <el-col :span="8">
-              <el-form-item label="数据来源" style="margin:0">
-                <el-select v-model="formData.data_sources" placeholder="请选择" style="width: 100%">
-                  <el-option v-for="item in sourcesData" :key="item.value" :label="item.label" :value="item.value" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="日期类型" style="margin:0">
-                <el-radio v-model="formData.date_type" label="1">生产日期</el-radio>
-                <el-radio v-model="formData.date_type" label="2">检验日期</el-radio>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="日期范围" style="margin:0">
-                <el-date-picker v-model="formData.times" style="width: 100%" type="daterange" range-separator="至"
-                  start-placeholder="开始日期" end-placeholder="结束日期" @change="timeChange" />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8">
-              <el-form-item label="区域" style="margin:10px 0">
-                <el-select v-model="formData.data_sources" placeholder="请选择" style="width: 100%">
-                  <el-option v-for="item in sourcesData" :key="item.value" :label="item.label" :value="item.value" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="检出/未检出" style="margin:10px 0">
-                <el-select v-model="formData.data_sources" placeholder="请选择" style="width: 100%">
-                  <el-option v-for="item in sourcesData" :key="item.value" :label="item.label" :value="item.value" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="奶源地" style="margin:10px 0">
-                <el-select v-model="formData.data_sources" placeholder="请选择" style="width: 100%">
-                  <el-option v-for="item in sourcesData" :key="item.value" :label="item.label" :value="item.value" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8">
-              <el-form-item :label="'引用监测\n数据数值'" style="margin:0;white-space: pre-line;line-height: 20px;">
-                <el-select v-model="formData.data_sources" placeholder="请选择" style="width: 100%">
-                  <el-option v-for="item in sourcesData" :key="item.value" :label="item.label" :value="item.value" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="项目名称" style="margin:0">
-                <el-select v-model="formData.data_sources" placeholder="请选择" style="width: 100%">
-                  <el-option v-for="item in sourcesData" :key="item.value" :label="item.label" :value="item.value" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item class="btn">
-                <el-button type="primary" class="btns">查询</el-button>
-                <el-button class="btns">重置</el-button>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form> -->
-        <search
-          ref="refsearch"
-          @getList="getbotmEcarts"
-          name="/"
-          :UserId="UserId"
-          :tableId="tableId"
-        ></search>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="数据来源" style="margin:0">
+              <el-select v-model="formData.data_sources" placeholder="请选择" style="width: 100%">
+                <el-option v-for="item in sourcesData" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="日期类型" style="margin:0">
+              <el-radio v-model="formData.date_type" label="1">生产日期</el-radio>
+              <el-radio v-model="formData.date_type" label="2">检验日期</el-radio>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="日期范围" style="margin:0">
+              <el-date-picker v-model="formData.times" style="width: 100%" type="daterange" range-separator="至"
+                start-placeholder="开始日期" end-placeholder="结束日期" @change="timeChange" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="区域" style="margin:10px 0">
+              <el-select v-model="formData.data_sources" placeholder="请选择" style="width: 100%">
+                <el-option v-for="item in sourcesData" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="检出/未检出" style="margin:10px 0">
+              <el-select v-model="formData.data_sources" placeholder="请选择" style="width: 100%">
+                <el-option v-for="item in sourcesData" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="奶源地" style="margin:10px 0">
+              <el-select v-model="formData.data_sources" placeholder="请选择" style="width: 100%">
+                <el-option v-for="item in sourcesData" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item :label="'引用监测\n数据数值'" style="margin:0;white-space: pre-line;line-height: 20px;">
+              <el-select v-model="formData.data_sources" placeholder="请选择" style="width: 100%">
+                <el-option v-for="item in sourcesData" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="项目名称" style="margin:0">
+              <el-select v-model="formData.data_sources" placeholder="请选择" style="width: 100%">
+                <el-option v-for="item in sourcesData" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item class="btn">
+              <el-button type="primary" class="btns">查询</el-button>
+              <el-button class="btns">重置</el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form> -->
+        <search ref="refsearch" @getList="getbotmEcarts" name="/" :UserId="UserId" :tableId="tableId"></search>
       </div>
     </div>
     <div class="body1">
       <div class="body_top">
         <div class="title">品质数据分析地图</div>
         <!-- <div class="fold_right" @click="open_fold">
-          <span>{{open_folds?'折叠':'展开'}}</span>
-          <i :class="open_folds?'el-icon-arrow-up':'el-icon-arrow-down'"></i>
-        </div> -->
+        <span>{{open_folds?'折叠':'展开'}}</span>
+        <i :class="open_folds?'el-icon-arrow-up':'el-icon-arrow-down'"></i>
+      </div> -->
       </div>
       <div class="body_bottom chinaMap">
-        <mapEcharts
-          v-if="barData.quotaData.length > 0"
-          height="100%"
-          :city="city"
-          @cityList="getcity"
-          :barData="barData"
-        ></mapEcharts>
+        <mapEcharts v-if="barData.quotaData.length > 0" height="100%" :city="city" @cityList="getcity"
+          :barData="barData"></mapEcharts>
         <!-- <div id="dataMapecharts" style="width: 100%;height: 660px;"></div> -->
         <div class="left_bottom" v-if="1 < 0">
           <div class="title2">检出含量等级</div>
@@ -127,29 +114,24 @@
       </div>
       <div class="body_bottom histogram_body_bottom">
         <el-col :span="24">
-          <div class="histogram" id="histogram" :style="histogram"></div>
+          <div v-if="zhushow" class="histogram" id="histogram" :style="histogram"></div>
         </el-col>
         <!-- <el-col :span="24">
-          <div class="histogram_bottom">
-            <div class="bottom_div">
-              <div class="max_zhi"></div>
-              <div>最大值</div>
-            </div>
-            <div class="bottom_div">
-              <div class="min_zhi"></div>
-              <div>最小值</div>
-            </div>
+        <div class="histogram_bottom">
+          <div class="bottom_div">
+            <div class="max_zhi"></div>
+            <div>最大值</div>
           </div>
-        </el-col> -->
+          <div class="bottom_div">
+            <div class="min_zhi"></div>
+            <div>最小值</div>
+          </div>
+        </div>
+      </el-col> -->
       </div>
     </div>
     <el-dialog title="品质数据分析" fullscreen :visible.sync="dialogVisible" @close="dialogVisibleClose">
-      <QualityTwoChildren
-        ref="QualityTwoChildren"
-        name="品质数据分析"
-        :UserId="UserId"
-        :CITY="CITY"
-      ></QualityTwoChildren>
+      <QualityTwoChildren ref="QualityTwoChildren" name="品质数据分析" :UserId="UserId" :CITY="CITY"></QualityTwoChildren>
     </el-dialog>
   </div>
 </template>
@@ -178,6 +160,7 @@ export default {
         date_type: "1",
         times: [],
       },
+      zhushow: false,
       histogram: { float: "left", width: "100%", height: "380px" }, //图表样式
       is_show: false,
       box_name: "",
@@ -202,10 +185,10 @@ export default {
     this.$refs.refsearch.getData();
   },
   methods: {
-    dialogVisibleClose(){
+    dialogVisibleClose() {
       this.$refs.refsearch.getData();
     },
-    TabbleCommon(f) {},
+    TabbleCommon(f) { },
     // 条件筛选折叠展开
     open_fold() {
       this.open_folds = !this.open_folds;
@@ -225,10 +208,10 @@ export default {
       var that = this;
       MSG.loading('加载中...');
       this.$nextTick(() => {
-        setTimeout(()=>{
+        setTimeout(() => {
           that.$refs.QualityTwoChildren.getData();
-        },1000)
-          
+        }, 1000)
+
       });
       // this.$router.push({
       //   name: "QualityTwoChildren",
@@ -411,7 +394,8 @@ export default {
       });
     },
     getbotmEcarts(f) {
-      this.barData = { quotaData: [] };
+      this.barData.quotaData = [];
+      this.zhushow = false
       // var a = { "XMMC": "脂肪", "TNAME": "FXXMPT_WRW_SR", "DTYPE": "JYRQ", "KSRQ": "2022-01-01", "JSRQ": "2022-12-31", "CITY": "*", "JTYPE": "*", "NYDMC": "*", "JCTYPE": "*" }
       const data = {
         SType: "GetTableData",
@@ -441,10 +425,14 @@ export default {
             P50List.push(r.P50);
             P95list.push(r.P95);
           });
-          this.initEcharts(name, max, min, avg, P50List, P95list);
+          this.zhushow = true
+          this.$nextTick(()=>{
+            this.initEcharts(name, max, min, avg, P50List, P95list);
+          })
+          
         }
       });
-      data.TreeID = "1000260";
+      data.TreeID = '1000260';
       data.PageSize = "9999";
       this.$getReq("/ashx/Common.ashx", "post", data).then((res) => {
         var data2 = res.Result.data;
@@ -474,7 +462,7 @@ export default {
             );
           });
         } else {
-          this.barData = { quotaData: [] };
+          this.barData.quotaData = [];
         }
       });
     },
@@ -505,6 +493,7 @@ export default {
     },
     //底部柱状图
     initEcharts(name, max, min, avg, P50List, P95list) {
+      
       const histogram = echarts.init(document.getElementById("histogram"));
 
       histogram.clear();
@@ -597,7 +586,7 @@ export default {
       function formatterHover(params) {
         let dataIndex = params.dataIndex;
         return `<div style='padding-left:10px;border-left:16px solid #4B9FFA;height:10px;line-height:10px;text-align:left'>最大值：${yData[dataIndex].max}</div>
-            <div style='padding-left:10px;border-left:16px solid #4CC473;height:10px;line-height:10px;margin-top:10px;text-align:left'>最小值：${yData[dataIndex].min}</div>`;
+          <div style='padding-left:10px;border-left:16px solid #4CC473;height:10px;line-height:10px;margin-top:10px;text-align:left'>最小值：${yData[dataIndex].min}</div>`;
       }
       histogram.setOption(option);
       //随着屏幕大小调节图表
@@ -765,4 +754,3 @@ export default {
   }
 }
 </style>
-  

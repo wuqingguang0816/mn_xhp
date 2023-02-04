@@ -414,10 +414,10 @@ export default {
                 if (itm.EXT1 === "M") {
                   itm.DEFAULT_VALUE = itm.DEFAULT_VALUE.split(",");
                 }
-                itm.LINKCONTENT.unshift({
-                  ID: "*",
-                  TEXT: "全部",
-                });
+                // itm.LINKCONTENT.unshift({
+                //   ID: "*",
+                //   TEXT: "全部",
+                // });
               }
             });
             this.formArr = tableD;
