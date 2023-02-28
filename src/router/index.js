@@ -24,7 +24,7 @@ export default new Router({
                 import ('@/components/QualityDataAnalysis'),
         },
         {
-            path: '/pesticides',
+            path: '/pesticides', //农药检出频
             name: 'pesticides',
             hidden: true,
             component: () =>
@@ -32,7 +32,7 @@ export default new Router({
         },
         {
             path: '/pesticides2',
-            name: 'pesticides2',
+            name: 'pesticides2', //农药单例
             hidden: true,
             component: () =>
                 import ('@/components/pesticides2'),

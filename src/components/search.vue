@@ -37,7 +37,7 @@
                 ></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8" v-else>
+            <el-col :span="5" v-else>
               <el-form-item
                 :label="t.TEXT_PROMPT + ':'"
                 v-if="t.DEFAULT_TYPE != 'F' && t.DEFAULT_TYPE != 'D'"
