@@ -227,6 +227,7 @@ export default {
       const box1 = echarts.init(document.getElementById("box1"));
       let option;
       option = {
+        backgroundColor:"#ffffff",
         legend: {
           itemWidth: 15, //图例的宽度
           itemHeight: 15, //图例的高度
@@ -313,6 +314,7 @@ export default {
       );
       let option;
       option = {
+        backgroundColor:"#ffffff",
         legend: {
           itemWidth: 15, //图例的宽度
           itemHeight: 15, //图例的高度
@@ -499,6 +501,7 @@ export default {
       histogram.clear();
       // 基本柱状图
       const option = {
+        backgroundColor:"#ffffff",
         // tooltip: {
         //   trigger: 'item',
         //   triggerOn: 'mousemove',

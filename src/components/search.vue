@@ -27,6 +27,7 @@
                 label-width="130px"
               >
                 <el-input
+                style="width: 100%;"
                   v-model="t.DEFAULT_VALUE"
                   type="textarea"
                   :rows="4"
@@ -37,13 +38,13 @@
                 ></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="5" v-else>
+            <el-col :xs="12" :sm="12" :md="12" :lg="8" :xl="5" v-else>
               <el-form-item
                 :label="t.TEXT_PROMPT + ':'"
                 v-if="t.DEFAULT_TYPE != 'F' && t.DEFAULT_TYPE != 'D'"
               >
                 <el-input
-                 
+                style="width: 100%;"
                   v-model="t.DEFAULT_VALUE"
                   v-if="t.DEFAULT_TYPE == 'K'"
                   disabled
@@ -67,7 +68,7 @@
                     filterable
                     multiple
                     collapse-tags
-                   
+                    style="width: 100%;"
                     v-model="t.DEFAULT_VALUE"
                     :placeholder="t.TEXT_PROMPT"
                   >
@@ -82,7 +83,7 @@
                   <el-select
                     v-else
                     filterable
-                   
+                    style="width: 100%;"
                     v-model="t.DEFAULT_VALUE"
                     :placeholder="t.TEXT_PROMPT"
                   >
@@ -97,14 +98,14 @@
                 </div>
 
                 <el-input
-                 
+                style="width: 100%;"
                   v-model="t.DEFAULT_VALUE"
                   type=" number"
                   v-if="t.DEFAULT_TYPE == 'N'"
                   :placeholder="t.TEXT_PROMPT"
                 ></el-input>
                 <el-input
-                 
+                style="width: 100%;"
                   v-model="t.DEFAULT_VALUE"
                   v-if="t.DEFAULT_TYPE == 'T'"
                   :placeholder="t.TEXT_PROMPT"
