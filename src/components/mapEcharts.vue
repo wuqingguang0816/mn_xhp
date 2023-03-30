@@ -32,6 +32,10 @@ export default {
         clickshow: {
             type: Boolean,
             default: true
+        },
+        chinas:{
+            type: String,
+            default: 'china'
         }
     },
     data() {
@@ -69,7 +73,7 @@ export default {
         initChart() {
             var that = this
             this.chart = echarts.init(this.$el, 'macarons')
-            echarts.registerMap('China', that.city, {
+            echarts.registerMap(that.chinas, that.city, {
                 Alaska: {
                     left: -131,
                     top: 25,
@@ -103,16 +107,17 @@ export default {
 
 
         setOptions({ quotaData, showColor } = {}) {
-            var thta = this
+            var that = this
             if (showColor && showColor.show) {
                 this.chart.setOption({
                     backgroundColor:"#ffffff",
                     geo: {
                         type: 'map',
-                        map: 'China',
+                        map: that.chinas,
                         label: {
                             show: true
                         },
+                        aspectScale:1.3,
                         roam: true,
                         regions: showColor.max,
                     },
@@ -128,11 +133,12 @@ export default {
                 this.chart.setOption({
                     backgroundColor:"#ffffff",
                     geo: {
-                        map: 'China',
+                        map: that.chinas,
                         roam: true,
                         itemStyle: {
                             areaColor: '#e7e8ea'
                         },
+                        aspectScale:1.3,
                         label: {
                             show: true
                         }

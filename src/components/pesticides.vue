@@ -4,7 +4,7 @@
             <div class="body_top">
                 <div class="title">筛选条件</div>
                 <div class="fold_right" @click="open_fold">
-                    <span>{{ open_folds? "折叠": "展开" }}</span>
+                    <span>{{ open_folds ? "折叠" : "展开" }}</span>
                     <i :class="open_folds ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
                 </div>
             </div>
@@ -20,9 +20,10 @@
         <i :class="open_folds?'el-icon-arrow-up':'el-icon-arrow-down'"></i>
       </div> -->
             </div>
-            <div class="body_bottom chinaMap">
+            <div class="body_bottom chinaMap" v-loading="geoShow">
                 <mapEcharts v-if="barData.quotaData.length > 0" height="100%" :city="city" @cityList="getcity"
                     :barData="barData" :clickshow="false"></mapEcharts>
+                <div v-else style="text-align: center;line-height: 200px;font-size: 18px;">暂无数据</div>
             </div>
         </div>
         <div class="body1">
@@ -60,7 +61,7 @@
 import * as echarts from "echarts";
 import mapEcharts from "./mapEcharts.vue";
 import search from "./search.vue";
-import china from "@/assets/china.json"; //地图包
+import china from "@/assets/china2.json"; //地图包
 import QualityTwoChildren from "./QualityTwoChildren.vue";
 import query from './queryTbale.vue'
 import MSG from "@/linbs/mesAge";
@@ -81,6 +82,7 @@ export default {
                 date_type: "1",
                 times: [],
             },
+            geoShow: true,
             listQuery: {
                 "SType": "GetTableData",
                 "UserId": "88800000",
@@ -341,6 +343,7 @@ export default {
         },
         getbotmEcarts(f) {
             this.barData.quotaData = [];
+            this.geoShow=true
             // this.zhushow = false
             const data = {
                 SType: "GetTableData",
@@ -377,6 +380,25 @@ export default {
 
             //     }
             // });
+            // 省级颜色
+            data.TreeID = '1000360';
+            data.PageSize = "9999";
+            this.$getReq("/ashx/Common.ashx", "post", data).then((res) => {
+                let province = res.Result.data
+                let p = province.sort(this.sortAll)
+                let pList = p.map((r, index) => {
+                    return {
+                        name: r.PROVINCE,
+                        itemStyle: {
+                            areaColor: this.getItemColors(index + 1),
+                            color: this.getItemColors(index + 1)
+                        }
+                    }
+                })
+                console.log(pList)
+                this.barData.showColor.max = pList
+                this.barData.showColor.show = true
+            })
             // 农药饼图
             data.TreeID = '1000358';
             data.PageSize = "9999";
@@ -410,28 +432,9 @@ export default {
                 } else {
                     this.barData.quotaData = [];
                 }
+                this.geoShow = false
             });
-            // 省级颜色
-            data.TreeID = '1000360';
-            data.PageSize = "9999";
-            this.$getReq("/ashx/Common.ashx", "post", data).then((res) => {
-                let province = res.Result.data
-                let p = province.sort(this.sortAll)
-                let pList = p.map((r, index) => {
-                    return {
-                        name: r.PROVINCE,
-                        itemStyle: {
-                            areaColor: this.getItemColors(index + 1),
-                            color: this.getItemColors(index + 1)
-                        }
-                    }
-                })
-                console.log(pList)
 
-                this.barData.showColor.max = pList
-
-                this.barData.showColor.show = true
-            })
 
         },
         sortAll(a, b) {

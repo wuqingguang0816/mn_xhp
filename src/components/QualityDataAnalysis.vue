@@ -139,7 +139,7 @@
 import * as echarts from "echarts";
 import mapEcharts from "./mapEcharts.vue";
 import search from "./search.vue";
-import china from "@/assets/china.json"; //地图包
+import china from "@/assets/china2.json"; //地图包
 import QualityTwoChildren from "./QualityTwoChildren.vue";
 
 import MSG from "@/linbs/mesAge";

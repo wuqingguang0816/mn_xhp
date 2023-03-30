@@ -12,6 +12,7 @@
           v-if="city"
           height="100%"
           :city="city"
+          chinas="China"
           @cityList="getcity"
           :clickshow="false"
           :barData="barData2"
