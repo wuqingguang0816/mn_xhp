@@ -84,7 +84,7 @@ export default {
                     left: -76,
                     top: 26,
                     width: 2
-                }
+                },
             });
 
             this.setOptions(this.barData)
@@ -106,6 +106,7 @@ export default {
             var thta = this
             if (showColor && showColor.show) {
                 this.chart.setOption({
+                    backgroundColor:"#ffffff",
                     geo: {
                         type: 'map',
                         map: 'China',
@@ -125,6 +126,7 @@ export default {
                 })
             } else {
                 this.chart.setOption({
+                    backgroundColor:"#ffffff",
                     geo: {
                         map: 'China',
                         roam: true,

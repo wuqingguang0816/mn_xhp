@@ -118,23 +118,19 @@ export default {
     getData() {
       this.city = "";
       MSG.closeLoading();
-      this.$getReq("/ashx/Common.ashx", "post", { SType: "IPCONFIG" }).then(
-        (res) => {
-          this.$axios(`${res}/json/${this.CITY}.json`).then((Data) => {
-            // this.$axios(`api/json/${this.CITY}.json`).then((Data) => {
-            this.city = Data;
-            this.getsj();
-            this.getEcharts();
-          });
-        }
-      );
+      this.$getReq(`/json/${this.CITY}.json`, "get", {}).then((Data) => {
+        //本地使用这个
+        this.city = Data;
+        this.getsj();
+        this.getEcharts();
+      });
     },
     goback() {
       this.$router.go(-1);
     },
     // 数据
     getsj() {
-      this.barData2.quotaData=[];
+      this.barData2.quotaData = [];
       const data = {
         SType: "GetTableData",
         UserId: this.UserId,
@@ -171,8 +167,8 @@ export default {
               this.randomPieSeries(r.val, r.center, 20)
             );
           });
-        }else{
-          this.barData2.quotaData=[];
+        } else {
+          this.barData2.quotaData = [];
         }
       });
     },
