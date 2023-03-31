@@ -4,7 +4,7 @@
             <div class="body_top">
                 <div class="title">筛选条件</div>
                 <div class="fold_right" @click="open_fold">
-                    <span>{{ open_folds? "折叠": "展开" }}</span>
+                    <span>{{ open_folds ? "折叠" : "展开" }}</span>
                     <i :class="open_folds ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
                 </div>
             </div>
@@ -16,9 +16,10 @@
             <div class="body_top">
                 <div class="title">农药单例样本分析地图</div>
             </div>
-            <div class="body_bottom chinaMap">
+            <div class="body_bottom chinaMap" v-loading="geoShow">
                 <mapEcharts v-if="barData.quotaData.length > 0" height="100%" :city="city" @cityList="getcity"
                     :barData="barData" :clickshow="false"></mapEcharts>
+                <div v-else style="text-align: center;line-height: 200px;font-size: 18px;">暂无数据</div>
             </div>
         </div>
 
@@ -49,6 +50,7 @@ export default {
                 date_type: "1",
                 times: [],
             },
+            geoShow: true,
             listQuery: {
                 "SType": "GetTableData",
                 "UserId": "88800000",
@@ -138,6 +140,7 @@ export default {
         getbotmEcarts(f) {
             this.barData.quotaData = [];
             // this.zhushow = false
+            this.geoShow=true
             const data = {
                 SType: "GetTableData",
                 UserId: this.UserId,
@@ -194,11 +197,9 @@ export default {
                         }
                     }
                 })
-                console.log(pList)
-
                 this.barData.showColor.max = pList
-
                 this.barData.showColor.show = true
+                this.geoShow = false
             })
 
         },

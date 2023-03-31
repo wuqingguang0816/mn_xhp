@@ -9,74 +9,6 @@
         </div>
       </div>
       <div class="body_bottom" v-show="open_folds">
-        <!-- <el-form ref="forms" :model="formData" label-width="130px">
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="数据来源" style="margin:0">
-              <el-select v-model="formData.data_sources" placeholder="请选择" style="width: 100%">
-                <el-option v-for="item in sourcesData" :key="item.value" :label="item.label" :value="item.value" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="日期类型" style="margin:0">
-              <el-radio v-model="formData.date_type" label="1">生产日期</el-radio>
-              <el-radio v-model="formData.date_type" label="2">检验日期</el-radio>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="日期范围" style="margin:0">
-              <el-date-picker v-model="formData.times" style="width: 100%" type="daterange" range-separator="至"
-                start-placeholder="开始日期" end-placeholder="结束日期" @change="timeChange" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="区域" style="margin:10px 0">
-              <el-select v-model="formData.data_sources" placeholder="请选择" style="width: 100%">
-                <el-option v-for="item in sourcesData" :key="item.value" :label="item.label" :value="item.value" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="检出/未检出" style="margin:10px 0">
-              <el-select v-model="formData.data_sources" placeholder="请选择" style="width: 100%">
-                <el-option v-for="item in sourcesData" :key="item.value" :label="item.label" :value="item.value" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="奶源地" style="margin:10px 0">
-              <el-select v-model="formData.data_sources" placeholder="请选择" style="width: 100%">
-                <el-option v-for="item in sourcesData" :key="item.value" :label="item.label" :value="item.value" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item :label="'引用监测\n数据数值'" style="margin:0;white-space: pre-line;line-height: 20px;">
-              <el-select v-model="formData.data_sources" placeholder="请选择" style="width: 100%">
-                <el-option v-for="item in sourcesData" :key="item.value" :label="item.label" :value="item.value" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="项目名称" style="margin:0">
-              <el-select v-model="formData.data_sources" placeholder="请选择" style="width: 100%">
-                <el-option v-for="item in sourcesData" :key="item.value" :label="item.label" :value="item.value" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item class="btn">
-              <el-button type="primary" class="btns">查询</el-button>
-              <el-button class="btns">重置</el-button>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form> -->
         <search ref="refsearch" @getList="getbotmEcarts" name="/" :UserId="UserId" :tableId="tableId"></search>
       </div>
     </div>
@@ -88,24 +20,11 @@
         <i :class="open_folds?'el-icon-arrow-up':'el-icon-arrow-down'"></i>
       </div> -->
       </div>
-      <div class="body_bottom chinaMap">
+      <div class="body_bottom chinaMap" v-loading="geoShow">
         <mapEcharts v-if="barData.quotaData.length > 0" height="100%" :city="city" @cityList="getcity"
           :barData="barData"></mapEcharts>
+          <div v-else style="text-align: center;line-height: 200px;font-size: 18px;">暂无数据</div>
         <!-- <div id="dataMapecharts" style="width: 100%;height: 660px;"></div> -->
-        <div class="left_bottom" v-if="1 < 0">
-          <div class="title2">检出含量等级</div>
-          <div id="gradeEcharts" style="width: 200px; height: 100px"></div>
-        </div>
-        <div class="right_bottom" v-if="1 < 0">
-          <div class="title2">平均检出量</div>
-          <div>> 200</div>
-          <div>100 ~ 200</div>
-          <div>{{ text }}</div>
-        </div>
-        <div v-show="is_show" class="box1_div">
-          <div style="line-height: 30px">{{ box_name }}</div>
-          <div id="box1" style="width: 200px; height: 100px"></div>
-        </div>
       </div>
     </div>
     <div class="body1">
@@ -165,6 +84,7 @@ export default {
       is_show: false,
       box_name: "",
       UserId: "",
+      geoShow: true,
       barData: { quotaData: [] },
       city: china,
       tableId: "1000260",
@@ -398,6 +318,7 @@ export default {
     getbotmEcarts(f) {
       this.barData.quotaData = [];
       this.zhushow = false
+      this.geoShow=true
       // var a = { "XMMC": "脂肪", "TNAME": "FXXMPT_WRW_SR", "DTYPE": "JYRQ", "KSRQ": "2022-01-01", "JSRQ": "2022-12-31", "CITY": "*", "JTYPE": "*", "NYDMC": "*", "JCTYPE": "*" }
       const data = {
         SType: "GetTableData",
@@ -466,6 +387,7 @@ export default {
         } else {
           this.barData.quotaData = [];
         }
+        this.geoShow = false
       });
     },
     randomPieSeries(data, center, radius) {
