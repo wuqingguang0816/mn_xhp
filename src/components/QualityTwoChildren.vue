@@ -8,6 +8,16 @@
         </div> -->
       </div>
       <div class="body_bottom chinaMap">
+        <div class="chinaMap_statistics">
+          <div
+            v-for="(item, inx) in Statistics"
+            class="tt"
+            :class="item.title === '总数量' ? 'zsl' : ''"
+          >
+            <span class="t">{{ item.title }}：</span>
+            <span class="text">{{ item.num }}</span>
+          </div>
+        </div>
         <mapEcharts
           v-if="city"
           height="100%"
@@ -60,21 +70,21 @@ export default {
   name: "QualityTwoChildren",
   components: {
     query,
-    mapEcharts,
+    mapEcharts
   },
   props: {
     UserId: {
       type: String,
-      default: "",
+      default: ""
     },
     CITY: {
       type: String,
-      default: "",
+      default: ""
     },
     name: {
       type: String,
-      default: "",
-    },
+      default: ""
+    }
   },
   data() {
     return {
@@ -90,7 +100,7 @@ export default {
         TreeID: "1000266",
         PageIndex: 1,
         PageSize: 10,
-        Filter: "{}",
+        Filter: "{}"
       },
       //省份数据
       sfData: [],
@@ -99,6 +109,7 @@ export default {
       json_data: [],
       barData2: { quotaData: [] },
       city: "",
+      Statistics: []
     };
   },
   created() {
@@ -119,7 +130,7 @@ export default {
     getData() {
       this.city = "";
       MSG.closeLoading();
-      this.$getReq(`/json/${this.CITY}.json`, "get", {}).then((Data) => {
+      this.$getReq(`/json/${this.CITY}.json`, "get", {}).then(Data => {
         //本地使用这个
         this.city = Data;
         this.getsj();
@@ -139,31 +150,46 @@ export default {
         TreeID: "1000264",
         PageIndex: "1",
         PageSize: "1000000000",
-        Filter: this.$store.state.Filter,
+        Filter: this.$store.state.Filter
       };
-      this.$getReq("/ashx/Common.ashx", "post", data).then((res) => {
+      this.$getReq("/ashx/Common.ashx", "post", data).then(res => {
         var data2 = res.Result.data;
         var nameList = [];
         var obj = [];
         if (data2.length > 0) {
-          data2.map((r) => {
+          let s = [];
+          // let group = this.getGroup(data2, "QJMS");
+          // for (let key in group) {
+          //   s.push({
+          //     title: key,
+          //     num: group[key].length
+          //   });
+          // }
+          s.push({
+            title: "总数量",
+            num: data2.length
+          });
+          if (s.length > 0) {
+            this.Statistics = s;
+          }
+          data2.map(r => {
             if (obj.indexOf(r.CITY) < 0) {
               obj.push(r.CITY);
               nameList.push({
                 name: r.CITY,
                 center: [r.LONGITUDE, r.LATITUDE],
-                val: [],
+                val: []
               });
             }
           });
-          nameList.map((r) => {
-            data2.map((res) => {
+          nameList.map(r => {
+            data2.map(res => {
               if (r.name == res.CITY) {
                 r.val.push({ name: res.QJMS, value: res.GS, city: r.name });
               }
             });
           });
-          nameList.map((r) => {
+          nameList.map(r => {
             this.barData2.quotaData.push(
               this.randomPieSeries(r.val, r.center, 20)
             );
@@ -178,23 +204,23 @@ export default {
         type: "pie",
         coordinateSystem: "geo",
         tooltip: {
-          formatter: function (params) {
+          formatter: function(params) {
             console.log(params);
             var str = "<div>";
             str += `${params.data.city}<br/>${params.data.name}:${params.data.value}</div>`;
             return str;
-          },
+          }
         },
         label: {
-          show: false,
+          show: false
         },
         labelLine: {
-          show: false,
+          show: false
         },
         animationDuration: 0,
         radius,
         center,
-        data,
+        data
       };
     },
     quxiaotk() {
@@ -207,7 +233,7 @@ export default {
       //加载中国地图
       var customSettings = [];
       var that = this;
-      this.sfData.forEach(function (item, index) {
+      this.sfData.forEach(function(item, index) {
         let iScolor;
         if (item.value > 0 && item.value < 101) {
           iScolor = "#C6E5F5";
@@ -221,8 +247,8 @@ export default {
         customSettings.push({
           name: item.name,
           itemStyle: {
-            areaColor: iScolor,
-          },
+            areaColor: iScolor
+          }
         });
       });
       var myChart = echarts.init(document.getElementById("dataMapecharts"));
@@ -241,42 +267,42 @@ export default {
               show: false,
               textStyle: {
                 color: "#000",
-                fontSize: 12,
-              },
+                fontSize: 12
+              }
             },
             emphasis: {
-              show: true,
-            },
+              show: true
+            }
           },
           roam: false,
           itemStyle: {
             normal: {
               borderColor: "#ccc",
-              areaColor: "#e0f3f8",
+              areaColor: "#e0f3f8"
             },
             emphasis: {
               areaColor: "#9DD4F4",
-              shadowColor: "rgba(0, 0, 0, 0.5)",
-            },
+              shadowColor: "rgba(0, 0, 0, 0.5)"
+            }
           },
-          top: "2%",
+          top: "2%"
         },
         series: [
           {
             type: "map",
             geoIndex: 0, // 不可缺少，否则无tooltip 指示效果
-            data: this.sfData,
-          },
-        ],
+            data: this.sfData
+          }
+        ]
       };
 
-      myChart.on("click", function (data) {
+      myChart.on("click", function(data) {
         let box_name = data.name;
         that.box_name = box_name;
         that.is_show = true;
       });
       myChart.setOption(chinaMap);
-      window.addEventListener("resize", function () {
+      window.addEventListener("resize", function() {
         myChart.resize();
       });
     },
@@ -295,7 +321,7 @@ export default {
           top: "center",
           icon: "rect",
           selectedMode: false, //取消图例上的点击事件
-          show: false,
+          show: false
         },
         color: ["#4B9FFC", "#4CC473", "#FAB220"], //扇形区域以及列表颜色
         series: [
@@ -306,9 +332,9 @@ export default {
             labelLine: {
               //设置延长线的长度
               normal: {
-                length: 5, //设置延长线的长度
+                length: 5 //设置延长线的长度
                 // length2: 3,//设置第二段延长线的长度
-              },
+              }
             },
             label: {
               normal: {
@@ -318,58 +344,58 @@ export default {
                   a: {
                     color: "#999",
                     lineHeight: 20, //设置最后一行空数据高度，为了能让延长线与hr线对接起来
-                    align: "center",
+                    align: "center"
                   },
                   hr: {
                     //设置hr是为了让中间线能够自适应长度
                     borderColor: "auto", //hr的颜色为auto时候会主动显示颜色的
                     width: "105%",
                     borderWidth: 0.5,
-                    height: 0.5,
+                    height: 0.5
                   },
                   per: {
                     //用百分比数据来调整下数字位置，显的好看些。如果不设置，formatter最后一行的空数据就不需要
-                    padding: [4, 0],
-                  },
-                },
+                    padding: [4, 0]
+                  }
+                }
               },
-              position: "left",
+              position: "left"
             },
             data: [
               {
                 value: 20,
-                name: "未检出",
+                name: "未检出"
               },
               {
                 value: 20,
-                name: "检出1种农药",
+                name: "检出1种农药"
               },
               {
                 value: 20,
-                name: "检出2-5种农药",
+                name: "检出2-5种农药"
               },
               {
                 value: 20,
-                name: "检出6-10种农药",
+                name: "检出6-10种农药"
               },
               {
                 value: 20,
-                name: "检出大于10种农药",
-              },
+                name: "检出大于10种农药"
+              }
             ],
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)",
-              },
-            },
-          },
-        ],
+                shadowColor: "rgba(0, 0, 0, 0.5)"
+              }
+            }
+          }
+        ]
       };
       box1.setOption(option);
       // 自适应窗口大小
-      window.addEventListener("resize", function () {
+      window.addEventListener("resize", function() {
         box1.resize();
       });
     },
@@ -390,7 +416,7 @@ export default {
           top: "center",
           icon: "rect",
           selectedMode: false, //取消图例上的点击事件
-          data: ["4~18岁", "18<X≤80岁", ">80岁"],
+          data: ["4~18岁", "18<X≤80岁", ">80岁"]
         },
         color: ["#4B9FFC", "#4CC473", "#FAB220"], //扇形区域以及列表颜色
         series: [
@@ -401,9 +427,9 @@ export default {
             labelLine: {
               //设置延长线的长度
               normal: {
-                length: 5, //设置延长线的长度
+                length: 5 //设置延长线的长度
                 // length2: 3,//设置第二段延长线的长度
-              },
+              }
             },
             label: {
               normal: {
@@ -414,50 +440,50 @@ export default {
                   a: {
                     color: "#999",
                     lineHeight: 20, //设置最后一行空数据高度，为了能让延长线与hr线对接起来
-                    align: "center",
+                    align: "center"
                   },
                   hr: {
                     //设置hr是为了让中间线能够自适应长度
                     borderColor: "auto", //hr的颜色为auto时候会主动显示颜色的
                     width: "105%",
                     borderWidth: 0.5,
-                    height: 0.5,
+                    height: 0.5
                   },
                   per: {
                     //用百分比数据来调整下数字位置，显的好看些。如果不设置，formatter最后一行的空数据就不需要
-                    padding: [4, 0],
-                  },
-                },
+                    padding: [4, 0]
+                  }
+                }
               },
-              position: "left",
+              position: "left"
             },
             data: [
               {
                 value: 20,
-                name: ">500",
+                name: ">500"
               },
               {
                 value: 20,
-                name: "200~500",
+                name: "200~500"
               },
               {
                 value: 20,
-                name: "1~200",
-              },
+                name: "1~200"
+              }
             ],
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)",
-              },
-            },
-          },
-        ],
+                shadowColor: "rgba(0, 0, 0, 0.5)"
+              }
+            }
+          }
+        ]
       };
       gradeEcharts.setOption(option);
       option;
-      window.addEventListener("resize", function () {
+      window.addEventListener("resize", function() {
         gradeEcharts.resize();
       });
     },
@@ -500,8 +526,8 @@ export default {
       //   }
 
       // })
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -562,7 +588,27 @@ export default {
 .chinaMap {
   height: 550px;
   position: relative;
-
+  .chinaMap_statistics {
+    position: absolute;
+    right: 60px;
+    top: 111px;
+    z-index: 99;
+    .tt {
+      font-size: 15px;
+      background-color: #eee;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      &.zsl {
+        margin-top: 10px;
+      }
+      .text {
+        font-weight: 600;
+        color: #0083d6;
+      }
+    }
+  }
   .left_bottom {
     position: absolute;
     bottom: 30px;
@@ -667,4 +713,3 @@ export default {
   margin-right: 20px;
 }
 </style>
-  

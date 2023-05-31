@@ -4,12 +4,20 @@
       <div class="body_top">
         <div class="title">筛选条件</div>
         <div class="fold_right" @click="open_fold">
-          <span>{{ open_folds? "折叠": "展开" }}</span>
-          <i :class="open_folds ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
+          <span>{{ open_folds ? "折叠" : "展开" }}</span>
+          <i
+            :class="open_folds ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"
+          ></i>
         </div>
       </div>
       <div class="body_bottom" v-show="open_folds">
-        <search ref="refsearch" @getList="getbotmEcarts" name="/" :UserId="UserId" :tableId="tableId"></search>
+        <search
+          ref="refsearch"
+          @getList="getbotmEcarts"
+          name="/"
+          :UserId="UserId"
+          :tableId="tableId"
+        ></search>
       </div>
     </div>
     <div class="body1">
@@ -21,9 +29,29 @@
       </div> -->
       </div>
       <div class="body_bottom chinaMap" v-loading="geoShow">
-        <mapEcharts v-if="barData.quotaData.length > 0" height="100%" :city="city" @cityList="getcity"
-          :barData="barData"></mapEcharts>
-          <div v-else style="text-align: center;line-height: 200px;font-size: 18px;">暂无数据</div>
+        <div class="chinaMap_statistics">
+          <div
+            v-for="(item, inx) in Statistics"
+            class="tt"
+            :class="item.title === '总数量' ? 'zsl' : ''"
+          >
+            <span class="t">{{ item.title }}：</span>
+            <span class="text">{{ item.num }}</span>
+          </div>
+        </div>
+        <mapEcharts
+          v-if="barData.quotaData.length > 0"
+          height="100%"
+          :city="city"
+          @cityList="getcity"
+          :barData="barData"
+        ></mapEcharts>
+        <div
+          v-else
+          style="text-align: center;line-height: 200px;font-size: 18px;"
+        >
+          暂无数据
+        </div>
         <!-- <div id="dataMapecharts" style="width: 100%;height: 660px;"></div> -->
       </div>
     </div>
@@ -33,7 +61,12 @@
       </div>
       <div class="body_bottom histogram_body_bottom">
         <el-col :span="24">
-          <div v-if="zhushow" class="histogram" id="histogram" :style="histogram"></div>
+          <div
+            v-if="zhushow"
+            class="histogram"
+            id="histogram"
+            :style="histogram"
+          ></div>
         </el-col>
         <!-- <el-col :span="24">
         <div class="histogram_bottom">
@@ -49,8 +82,18 @@
       </el-col> -->
       </div>
     </div>
-    <el-dialog title="品质数据分析" fullscreen :visible.sync="dialogVisible" @close="dialogVisibleClose">
-      <QualityTwoChildren ref="QualityTwoChildren" name="品质数据分析" :UserId="UserId" :CITY="CITY"></QualityTwoChildren>
+    <el-dialog
+      title="品质数据分析"
+      fullscreen
+      :visible.sync="dialogVisible"
+      @close="dialogVisibleClose"
+    >
+      <QualityTwoChildren
+        ref="QualityTwoChildren"
+        name="品质数据分析"
+        :UserId="UserId"
+        :CITY="CITY"
+      ></QualityTwoChildren>
     </el-dialog>
   </div>
 </template>
@@ -62,8 +105,6 @@ import china from "@/assets/china2.json"; //地图包
 import QualityTwoChildren from "./QualityTwoChildren.vue";
 
 import MSG from "@/linbs/mesAge";
-
-
 
 export default {
   name: "QualityDataAnalysis",
@@ -77,7 +118,7 @@ export default {
       formData: {
         data_sources: "",
         date_type: "1",
-        times: [],
+        times: []
       },
       zhushow: false,
       histogram: { float: "left", width: "100%", height: "380px" }, //图表样式
@@ -88,6 +129,7 @@ export default {
       barData: { quotaData: [] },
       city: china,
       tableId: "1000260",
+      Statistics: []
     };
   },
   created() {
@@ -106,9 +148,10 @@ export default {
   },
   methods: {
     dialogVisibleClose() {
-      this.$refs.refsearch.getData();
+      this.dialogVisible = false;
+      this.$refs.refsearch.inquireTap();
     },
-    TabbleCommon(f) { },
+    TabbleCommon(f) {},
     // 条件筛选折叠展开
     open_fold() {
       this.open_folds = !this.open_folds;
@@ -126,12 +169,11 @@ export default {
       this.CITY = r;
       this.dialogVisible = true;
       var that = this;
-      MSG.loading('加载中...');
+      MSG.loading("加载中...");
       this.$nextTick(() => {
         setTimeout(() => {
           that.$refs.QualityTwoChildren.getData();
-        }, 1000)
-
+        }, 1000);
       });
       // this.$router.push({
       //   name: "QualityTwoChildren",
@@ -147,7 +189,7 @@ export default {
       const box1 = echarts.init(document.getElementById("box1"));
       let option;
       option = {
-        backgroundColor:"#ffffff",
+        backgroundColor: "#ffffff",
         legend: {
           itemWidth: 15, //图例的宽度
           itemHeight: 15, //图例的高度
@@ -157,7 +199,7 @@ export default {
           top: "center",
           icon: "rect",
           selectedMode: false, //取消图例上的点击事件
-          show: false,
+          show: false
         },
         color: ["#4B9FFC", "#4CC473", "#FAB220"], //扇形区域以及列表颜色
         series: [
@@ -168,9 +210,9 @@ export default {
             labelLine: {
               //设置延长线的长度
               normal: {
-                length: 5, //设置延长线的长度
+                length: 5 //设置延长线的长度
                 // length2: 3,//设置第二段延长线的长度
-              },
+              }
             },
             label: {
               normal: {
@@ -180,50 +222,50 @@ export default {
                   a: {
                     color: "#999",
                     lineHeight: 20, //设置最后一行空数据高度，为了能让延长线与hr线对接起来
-                    align: "center",
+                    align: "center"
                   },
                   hr: {
                     //设置hr是为了让中间线能够自适应长度
                     borderColor: "auto", //hr的颜色为auto时候会主动显示颜色的
                     width: "105%",
                     borderWidth: 0.5,
-                    height: 0.5,
+                    height: 0.5
                   },
                   per: {
                     //用百分比数据来调整下数字位置，显的好看些。如果不设置，formatter最后一行的空数据就不需要
-                    padding: [4, 0],
-                  },
-                },
+                    padding: [4, 0]
+                  }
+                }
               },
-              position: "left",
+              position: "left"
             },
             data: [
               {
                 value: 20,
-                name: ">500",
+                name: ">500"
               },
               {
                 value: 20,
-                name: "200~500",
+                name: "200~500"
               },
               {
                 value: 20,
-                name: "1~200",
-              },
+                name: "1~200"
+              }
             ],
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)",
-              },
-            },
-          },
-        ],
+                shadowColor: "rgba(0, 0, 0, 0.5)"
+              }
+            }
+          }
+        ]
       };
       box1.setOption(option);
       // 自适应窗口大小
-      window.addEventListener("resize", function () {
+      window.addEventListener("resize", function() {
         box1.resize();
       });
     },
@@ -234,7 +276,7 @@ export default {
       );
       let option;
       option = {
-        backgroundColor:"#ffffff",
+        backgroundColor: "#ffffff",
         legend: {
           itemWidth: 15, //图例的宽度
           itemHeight: 15, //图例的高度
@@ -244,7 +286,7 @@ export default {
           top: "center",
           icon: "rect",
           selectedMode: false, //取消图例上的点击事件
-          data: ["4~18岁", "18<X≤80岁", ">80岁"],
+          data: ["4~18岁", "18<X≤80岁", ">80岁"]
         },
         color: ["#4B9FFC", "#4CC473", "#FAB220"], //扇形区域以及列表颜色
         series: [
@@ -255,9 +297,9 @@ export default {
             labelLine: {
               //设置延长线的长度
               normal: {
-                length: 5, //设置延长线的长度
+                length: 5 //设置延长线的长度
                 // length2: 3,//设置第二段延长线的长度
-              },
+              }
             },
             label: {
               normal: {
@@ -268,57 +310,57 @@ export default {
                   a: {
                     color: "#999",
                     lineHeight: 20, //设置最后一行空数据高度，为了能让延长线与hr线对接起来
-                    align: "center",
+                    align: "center"
                   },
                   hr: {
                     //设置hr是为了让中间线能够自适应长度
                     borderColor: "auto", //hr的颜色为auto时候会主动显示颜色的
                     width: "105%",
                     borderWidth: 0.5,
-                    height: 0.5,
+                    height: 0.5
                   },
                   per: {
                     //用百分比数据来调整下数字位置，显的好看些。如果不设置，formatter最后一行的空数据就不需要
-                    padding: [4, 0],
-                  },
-                },
+                    padding: [4, 0]
+                  }
+                }
               },
-              position: "left",
+              position: "left"
             },
             data: [
               {
                 value: 20,
-                name: ">500",
+                name: ">500"
               },
               {
                 value: 20,
-                name: "200~500",
+                name: "200~500"
               },
               {
                 value: 20,
-                name: "1~200",
-              },
+                name: "1~200"
+              }
             ],
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)",
-              },
-            },
-          },
-        ],
+                shadowColor: "rgba(0, 0, 0, 0.5)"
+              }
+            }
+          }
+        ]
       };
       gradeEcharts.setOption(option);
       option;
-      window.addEventListener("resize", function () {
+      window.addEventListener("resize", function() {
         gradeEcharts.resize();
       });
     },
     getbotmEcarts(f) {
       this.barData.quotaData = [];
-      this.zhushow = false
-      this.geoShow=true
+      this.zhushow = false;
+      this.geoShow = true;
       // var a = { "XMMC": "脂肪", "TNAME": "FXXMPT_WRW_SR", "DTYPE": "JYRQ", "KSRQ": "2022-01-01", "JSRQ": "2022-12-31", "CITY": "*", "JTYPE": "*", "NYDMC": "*", "JCTYPE": "*" }
       const data = {
         SType: "GetTableData",
@@ -327,10 +369,10 @@ export default {
         TreeID: "1000262",
         PageIndex: "1",
         PageSize: "10000000",
-        Filter: JSON.stringify(f),
+        Filter: JSON.stringify(f)
       };
       this.$store.state.Filter = data.Filter;
-      this.$getReq("/ashx/Common.ashx", "post", data).then((res) => {
+      this.$getReq("/ashx/Common.ashx", "post", data).then(res => {
         console.log(res);
         var datas = res.Result.data;
         var name = [],
@@ -340,7 +382,7 @@ export default {
           P50List = [],
           P95list = [];
         if (datas.length > 0) {
-          datas.map((r) => {
+          datas.map(r => {
             name.push(r.CITY);
             avg.push(r.AVGVLAUE);
             max.push(r.MAXVLAUE);
@@ -348,38 +390,54 @@ export default {
             P50List.push(r.P50);
             P95list.push(r.P95);
           });
-          this.zhushow = true
-          this.$nextTick(()=>{
+          this.zhushow = true;
+          this.$nextTick(() => {
             this.initEcharts(name, max, min, avg, P50List, P95list);
-          })
-          
+          });
         }
       });
-      data.TreeID = '1000260';
+      data.TreeID = "1000260";
       data.PageSize = "9999";
-      this.$getReq("/ashx/Common.ashx", "post", data).then((res) => {
+      this.$getReq("/ashx/Common.ashx", "post", data).then(res => {
         var data2 = res.Result.data;
         var nameList = [];
         var obj = [];
         if (data2.length > 0) {
-          data2.map((r) => {
+          // 计算总数 20230513 ch
+          let s = [];
+          // let group = this.getGroup(data2, "QJMS");
+          // for (let key in group) {
+          //   s.push({
+          //     title: key,
+          //     num: group[key].length
+          //   });
+          // }
+          s.push({
+            title: "总数量",
+            num: data2.length
+          });
+          if (s.length > 0) {
+            this.Statistics = s;
+          }
+          //
+          data2.map(r => {
             if (obj.indexOf(r.CITY) < 0) {
               obj.push(r.CITY);
               nameList.push({
                 name: r.CITY,
                 center: [r.LONGITUDE, r.LATITUDE],
-                val: [],
+                val: []
               });
             }
           });
-          nameList.map((r) => {
-            data2.map((res) => {
+          nameList.map(r => {
+            data2.map(res => {
               if (r.name == res.CITY) {
                 r.val.push({ name: res.QJMS, value: res.GS, city: r.name });
               }
             });
           });
-          nameList.map((r) => {
+          nameList.map(r => {
             this.barData.quotaData.push(
               this.randomPieSeries(r.val, r.center, 20)
             );
@@ -387,7 +445,7 @@ export default {
         } else {
           this.barData.quotaData = [];
         }
-        this.geoShow = false
+        this.geoShow = false;
       });
     },
     randomPieSeries(data, center, radius) {
@@ -395,35 +453,34 @@ export default {
         type: "pie",
         coordinateSystem: "geo",
         tooltip: {
-          formatter: function (params) {
+          formatter: function(params) {
             // console.log(params)
             var str = "<div>";
             str += `${params.data.city}<br/>${params.data.name}:${params.data.value}</div>`;
             return str;
-          },
+          }
         },
         label: {
-          show: false,
+          show: false
         },
 
         labelLine: {
-          show: false,
+          show: false
         },
         animationDuration: 0,
         radius,
         center,
-        data,
+        data
       };
     },
     //底部柱状图
     initEcharts(name, max, min, avg, P50List, P95list) {
-      
       const histogram = echarts.init(document.getElementById("histogram"));
 
       histogram.clear();
       // 基本柱状图
       const option = {
-        backgroundColor:"#ffffff",
+        backgroundColor: "#ffffff",
         // tooltip: {
         //   trigger: 'item',
         //   triggerOn: 'mousemove',
@@ -435,21 +492,21 @@ export default {
           axisPointer: {
             type: "cross",
             crossStyle: {
-              color: "#999",
-            },
-          },
+              color: "#999"
+            }
+          }
         },
         legend: {
-          data: ["最大值", "最小值", "均值", "P50", "P95"],
+          data: ["最大值", "最小值", "均值", "P50", "P95"]
         },
         xAxis: [
           {
             type: "category",
             data: name,
             axisPointer: {
-              type: "shadow",
-            },
-          },
+              type: "shadow"
+            }
+          }
         ],
         yAxis: {},
         series: [
@@ -457,56 +514,56 @@ export default {
             name: "最大值",
             type: "bar",
             tooltip: {
-              valueFormatter: function (value) {
+              valueFormatter: function(value) {
                 return value;
-              },
+              }
             },
-            data: max,
+            data: max
           },
           {
             name: "最小值",
             type: "bar",
             tooltip: {
-              valueFormatter: function (value) {
+              valueFormatter: function(value) {
                 return value;
-              },
+              }
             },
-            data: min,
+            data: min
           },
           {
             name: "均值",
             type: "line",
 
             tooltip: {
-              valueFormatter: function (value) {
+              valueFormatter: function(value) {
                 return value;
-              },
+              }
             },
-            data: avg,
+            data: avg
           },
           {
             name: "P50",
             type: "bar",
 
             tooltip: {
-              valueFormatter: function (value) {
+              valueFormatter: function(value) {
                 return value;
-              },
+              }
             },
-            data: P50List,
+            data: P50List
           },
           {
             name: "P95",
             type: "bar",
 
             tooltip: {
-              valueFormatter: function (value) {
+              valueFormatter: function(value) {
                 return value;
-              },
+              }
             },
-            data: P95list,
-          },
-        ],
+            data: P95list
+          }
+        ]
       };
       function formatterHover(params) {
         let dataIndex = params.dataIndex;
@@ -518,8 +575,8 @@ export default {
       window.addEventListener("resize", () => {
         histogram.resize();
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -580,7 +637,27 @@ export default {
 .chinaMap {
   height: 550px;
   position: relative;
-
+  .chinaMap_statistics {
+    position: absolute;
+    right: 60px;
+    top: 111px;
+    z-index: 99;
+    .tt {
+      font-size: 15px;
+      background-color: #eee;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      &.zsl {
+        margin-top: 10px;
+      }
+      .text {
+        font-weight: 600;
+        color: #0083d6;
+      }
+    }
+  }
   .left_bottom {
     position: absolute;
     bottom: 30px;

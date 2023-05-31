@@ -11,8 +11,9 @@ module.exports = {
         assetsPublicPath: '/',
         proxyTable: {
             '/api': { //匹配所有以/api开头的路径
+                //http://10.60.137.87/LIMS_CXRY/RASP/Site.ashx?action=colligatesearchtype
                 // target: "http://365947la87.qicp.vip:8989/LIMS",
-                target: "http://192.168.1.45/LIMS", //'http://www.mesall.cn/YLLIMS', //process.env.BASE_URL, //代理目标的基础路径
+                target: "http://10.60.137.87/LIMS", // "http://192.168.1.45/LIMS", //'http://www.mesall.cn/YLLIMS', //process.env.BASE_URL, //代理目标的基础路径
                 pathRewrite: { '^/api': '' }, //路径重写，匹配api开头的字符串，并把api替换为空字符串
                 ws: true, //用于支持websocket
                 changeOrigin: true //请求来自于。即控制请求头中host数据。默认为true说谎:来自8080;false如实回答来自代理服务器8081
