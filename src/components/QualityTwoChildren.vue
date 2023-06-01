@@ -26,6 +26,7 @@
           @cityList="getcity"
           :clickshow="false"
           :barData="barData2"
+          :groupArr="groupArr"
         >
         </mapEcharts>
         <!-- <div id="dataMapecharts" style="width: 100%;height: 600px;"></div> -->
@@ -109,7 +110,8 @@ export default {
       json_data: [],
       barData2: { quotaData: [] },
       city: "",
-      Statistics: []
+      Statistics: [],
+      groupArr: {} //地图数据
     };
   },
   created() {
@@ -158,7 +160,8 @@ export default {
         var obj = [];
         if (data2.length > 0) {
           let s = [];
-          // let group = this.getGroup(data2, "QJMS");
+          let group = this.getGroup(data2, "QJMS");
+          this.groupArr = group;
           // for (let key in group) {
           //   s.push({
           //     title: key,
@@ -205,7 +208,6 @@ export default {
         coordinateSystem: "geo",
         tooltip: {
           formatter: function(params) {
-            console.log(params);
             var str = "<div>";
             str += `${params.data.city}<br/>${params.data.name}:${params.data.value}</div>`;
             return str;
@@ -309,6 +311,7 @@ export default {
     getcity() {},
     //弹窗方法
     getBox1Data() {
+      let that = this;
       const box1 = echarts.init(document.getElementById("box1"));
       let option;
       option = {

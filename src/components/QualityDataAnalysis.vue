@@ -45,6 +45,8 @@
           :city="city"
           @cityList="getcity"
           :barData="barData"
+          :groupArr="groupArr"
+          ref="mapEcharts"
         ></mapEcharts>
         <div
           v-else
@@ -129,7 +131,9 @@ export default {
       barData: { quotaData: [] },
       city: china,
       tableId: "1000260",
-      Statistics: []
+      Statistics: [],
+      groupArr:{},//地图数据
+      dataArr:[],
     };
   },
   created() {
@@ -373,7 +377,6 @@ export default {
       };
       this.$store.state.Filter = data.Filter;
       this.$getReq("/ashx/Common.ashx", "post", data).then(res => {
-        console.log(res);
         var datas = res.Result.data;
         var name = [],
           max = [],
@@ -400,18 +403,16 @@ export default {
       data.PageSize = "9999";
       this.$getReq("/ashx/Common.ashx", "post", data).then(res => {
         var data2 = res.Result.data;
+        this.dataArr = JSON.parse(JSON.stringify(data2))
+        
         var nameList = [];
         var obj = [];
         if (data2.length > 0) {
           // 计算总数 20230513 ch
           let s = [];
-          // let group = this.getGroup(data2, "QJMS");
-          // for (let key in group) {
-          //   s.push({
-          //     title: key,
-          //     num: group[key].length
-          //   });
-          // }
+          this.groupArr = {};
+          let group = this.getGroup(data2, "QJMS");
+          this.groupArr = group;
           s.push({
             title: "总数量",
             num: data2.length
@@ -449,12 +450,12 @@ export default {
       });
     },
     randomPieSeries(data, center, radius) {
+      let that = this;
       return {
         type: "pie",
         coordinateSystem: "geo",
         tooltip: {
           formatter: function(params) {
-            // console.log(params)
             var str = "<div>";
             str += `${params.data.city}<br/>${params.data.name}:${params.data.value}</div>`;
             return str;
