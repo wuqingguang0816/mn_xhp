@@ -626,7 +626,6 @@ export default {
         Filter: "{}",
       };
       this.$getReq("/ashx/Common.ashx", "post", data).then((res) => {
-        console.log(res);
         let data = res.Result.data;
         this.tableData = data;
       });
@@ -639,9 +638,7 @@ export default {
         sType: "Visit",
         WebSite: "WEBSITE",
       };
-      this.$getReq("/ashx/Common.ashx", "post", data).then((res) => {
-        console.log(res);
-      });
+      this.$getReq("/ashx/Common.ashx", "post", data).then((res) => {});
     },
   },
 };
