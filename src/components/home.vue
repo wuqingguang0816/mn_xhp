@@ -236,7 +236,7 @@ export default {
             },
 
             homeList: [
-                { name: '2022年预警事件数', val: 0, imgcolor: '#DCE0F9', color: '#516AE8', bgimg: require('@/assets/img/icon1.png') },
+                { name: '年预警事件数', val: 0, imgcolor: '#DCE0F9', color: '#516AE8', bgimg: require('@/assets/img/icon1.png') },
                 { name: '食品安全国内通报数量', val: 0, imgcolor: '#FFE7CF', color: '#FF870F', bgimg: require('@/assets/img/icon2.png') },
                 { name: '食品安全国外通报数量', val: 0, imgcolor: '#CBE7FE', color: '#0088FE', bgimg: require('@/assets/img/icon3.png') },
                 { name: '今日浏览次数', val: 0, imgcolor: '#D7F3E5', color: '#30C283', bgimg: require('@/assets/img/icon4.png') },
@@ -414,7 +414,11 @@ export default {
             for (let index = 0; index < this.homeList.length; index++) {
                 var datas = [data3, data4, data5, data6, data7]
                 this.$getReq('/ashx/Common.ashx', "post", datas[index]).then(res => {
-                    this.homeList[index].val = res.Result.data[0].SL || res.Result.data[0].CS
+                    this.homeList[index].val = res.Result.data[0].SL || res.Result.data[0].CS;
+                    if(index==0){
+                        this.homeList[index].name =res.Result.data[0].NF+this.homeList[index].name;
+                    }
+                   
                 })
             }
             this.$getReq('/ashx/Common.ashx', "post", this.listQuery5).then(res => {
