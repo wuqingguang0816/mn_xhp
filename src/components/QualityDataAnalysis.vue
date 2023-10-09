@@ -16,13 +16,14 @@
           @getList="getbotmEcarts"
           name="/"
           :UserId="UserId"
+          @getTitle="getTitle"
           :tableId="tableId"
         ></search>
       </div>
     </div>
     <div class="body1">
       <div class="body_top">
-        <div class="title">品质数据分析地图</div>
+        <div class="title">{{titles}}地图</div>
         <!-- <div class="fold_right" @click="open_fold">
         <span>{{open_folds?'折叠':'展开'}}</span>
         <i :class="open_folds?'el-icon-arrow-up':'el-icon-arrow-down'"></i>
@@ -59,7 +60,7 @@
     </div>
     <div class="body1">
       <div class="body_top">
-        <div class="title">品质数据分析柱状图</div>
+        <div class="title">{{titles}}柱状图</div>
       </div>
       <div class="body_bottom histogram_body_bottom">
         <el-col :span="24">
@@ -85,14 +86,14 @@
       </div>
     </div>
     <el-dialog
-      title="品质数据分析"
+      :title="titles"
       fullscreen
       :visible.sync="dialogVisible"
       @close="dialogVisibleClose"
     >
       <QualityTwoChildren
         ref="QualityTwoChildren"
-        name="品质数据分析"
+        :name="titles"
         :UserId="UserId"
         :CITY="CITY"
       ></QualityTwoChildren>
@@ -128,6 +129,7 @@ export default {
       box_name: "",
       UserId: "",
       geoShow: true,
+      titles:"",
       barData: { quotaData: [] },
       city: china,
       tableId: "1000260",
@@ -448,6 +450,9 @@ export default {
         }
         this.geoShow = false;
       });
+    },
+    getTitle(it){
+      this.titles=it[0].TITLE
     },
     randomPieSeries(data, center, radius) {
       let that = this;

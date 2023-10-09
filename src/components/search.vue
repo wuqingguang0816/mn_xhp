@@ -415,12 +415,18 @@ export default {
                 if (itm.EXT1 === "M") {
                   itm.DEFAULT_VALUE = itm.DEFAULT_VALUE.split(",");
                 }
-                // itm.LINKCONTENT.unshift({
-                //   ID: "*",
-                //   TEXT: "全部",
-                // });
+       
+               const ds= itm.LINKCONTENT.findIndex(r=>r.ID=='*')
+               if (ds<0) {
+                itm.LINKCONTENT.unshift({
+                  ID: "*",
+                  TEXT: "所有",
+                });
+               }
+                
               }
             });
+            console.log(tableD,999);
             this.formArr = tableD;
             this.GridMenu = res.Result.GridMenu;
             var _that = this;
@@ -442,6 +448,7 @@ export default {
             });
           }
           this.inquireTap(); //
+          this.$emit("getTitle",  res.Result.Gridheader);
         } else {
           msg.msgError("暂无数据");
         }
