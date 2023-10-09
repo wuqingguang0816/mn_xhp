@@ -7,7 +7,7 @@
         <div class="home_title">
             <div class="home_div"
                 :style="[{ 'background-color': item.color }, { cursor: (index == 3 || index == 4 ? 'pointer' : '') }]"
-                v-for="(item,index) in homeList" :key="index" @click="openData2(index)">
+                v-for="(item, index) in homeList" :key="index" @click="openData2(index)">
                 <div class="imgs" :style="{ 'background-color': item.imgcolor }">
                     <img :src="item.bgimg" />
                 </div>
@@ -17,7 +17,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="main">
             <div class="main_1">
                 <div class="main_div">
@@ -43,7 +43,7 @@
                     </query>
                 </div>
             </div>
-            
+
             <div class="main_1">
                 <div class="main_div">
                     <p class="p1">重点关注信息
@@ -63,8 +63,8 @@
                 </div>
                 <div class="main_div">
                     <p class="p1">热点信息风险指标分析
-                        <el-button @click="openData('热点信息风险指标分析', listQuery4, 1)"
-                            style="position: absolute;right: 15px;" type="text">更多></el-button>
+                        <el-button @click="openData('热点信息风险指标分析', listQuery4, 1)" style="position: absolute;right: 15px;"
+                            type="text">更多></el-button>
                     </p>
                     <query class="tables" @queryData="getlist" ref="queryTable3" :tableColumn="false" :totalshow="false"
                         height="100%" :listQuery="listQuery4">
@@ -83,11 +83,11 @@
             <div class="main_1">
                 <div class="main_div">
                     <p class="p1">热点信息产品品类分析
-                        <el-button @click="openData('热点信息产品品类分析', listQuery3, 1)"
-                            style="position: absolute;right: 15px;" type="text">更多></el-button>
+                        <el-button @click="openData('热点信息产品品类分析', listQuery3, 1)" style="position: absolute;right: 15px;"
+                            type="text">更多></el-button>
                     </p>
-                    <query class="tables" @queryData="getlist2" ref="queryTable4" :tableColumn="false"
-                        :totalshow="false" height="100%" :listQuery="listQuery3">
+                    <query class="tables" @queryData="getlist2" ref="queryTable4" :tableColumn="false" :totalshow="false"
+                        height="100%" :listQuery="listQuery3">
                         <el-table-column v-if="tableHead2.length > 0" slot="tableColumn" show-overflow-tooltip
                             v-for="(item, index) in tableHead2" :label="item.name" align="center" :key="index"
                             :prop="item.property">
@@ -254,7 +254,10 @@ export default {
     },
     created() {
         this.UserId = this.$route.query.userId;
-        this.getliulan()
+        if (this.UserId) {
+            this.getliulan()
+        }
+
     },
     mounted() {
         // this.TabbleCommon()
@@ -266,7 +269,7 @@ export default {
         this.$refs.queryTable4.getList()
         // this.$refs.queryTable5.getList()
         this.getechatrs()
-        
+
     },
     methods: {
         openData2(i) {
@@ -415,14 +418,14 @@ export default {
                 var datas = [data3, data4, data5, data6, data7]
                 this.$getReq('/ashx/Common.ashx', "post", datas[index]).then(res => {
                     this.homeList[index].val = res.Result.data[0].SL || res.Result.data[0].CS;
-                    if(index==0){
-                        this.homeList[index].name =res.Result.data[0].NF+this.homeList[index].name;
+                    if (index == 0) {
+                        this.homeList[index].name = res.Result.data[0].NF + this.homeList[index].name;
                     }
-                   
+
                 })
             }
             this.$getReq('/ashx/Common.ashx', "post", this.listQuery5).then(res => {
-            
+
                 var bname = [], legend = [], qdata = [], listData = []
                 res.Result.data.map(r => {
                     if (bname.indexOf(r.CATEGORIES) < 0) {
@@ -462,7 +465,7 @@ export default {
                     }
                 })
 
-    
+
                 var zuizhongdata = []//最终data数据
                 listData.map(r => {
                     zuizhongdata.push(...r)
@@ -520,7 +523,7 @@ export default {
         width: 100%;
         left: 0;
         line-height: 3rem;
-        box-shadow: 0 0 10px 1px rgba(0,0,0,0.3);
+        box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.3);
 
         img {
             width: 3rem;
